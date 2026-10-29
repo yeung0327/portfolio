@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>杨千钎 · 项目作品集（演示版）</title>
-<meta name="description" content="杨千钎项目作品集的演示版：支持键盘翻页，包含 TAAC、AFAC、BMO、Findex 和秋招辅助五个项目。">
+<meta name="description" content="杨千钎项目作品集的演示版：支持键盘翻页，包含 TAAC、AFAC、BMO 和秋招辅助四个项目。">
 <style>
   :root{
     --ink:#080b10;
@@ -114,7 +114,7 @@
   .btn:hover{border-color:rgba(216,255,114,.55);color:var(--lime);transform:translateY(-1px)}
   .btn.primary{background:var(--lime);border-color:var(--lime);color:#0a0d09;font-weight:600}
   .btn.primary:hover{background:#e5ff9d;color:#0a0d09}
-  .hero-index{width:100%;max-width:1180px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;border-top:1px solid var(--line);padding-top:16px}
+  .hero-index{width:100%;max-width:1180px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;border-top:1px solid var(--line);padding-top:16px}
   .index-row{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-decoration:none;border:1px solid var(--line-2);border-radius:10px;padding:11px 13px;background:rgba(255,255,255,.02);text-align:left;transition:.2s}
   .index-row:hover{border-color:rgba(216,255,114,.45);background:rgba(216,255,114,.04);transform:translateY(-2px)}
   .index-row .num{font:9px/1 var(--mono);color:var(--dim)}
@@ -123,7 +123,7 @@
   .cover-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--line);margin-top:50px;padding-top:16px;font:9px/1.5 var(--mono);letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
 
   /* project index slide */
-  .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:30px;flex:1;min-height:0}
+  .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px;flex:1;min-height:0}
   .card{
     display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--line);
     background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
@@ -266,10 +266,10 @@
         <div class="cover-main">
           <div class="eyebrow">杨千钎 · 2027 校招</div>
           <h1>项目<em>作品集</em></h1>
-          <p class="lead">香港理工大学商业分析硕士在读。五个项目：两场算法赛、一次黑客松、一个创业项目，以及一份自己每天在用的求职工作台。</p>
+          <p class="lead">香港理工大学商业分析硕士在读。四个项目：两场算法赛、一次黑客松，以及一份自己每天在用的求职工作台。</p>
           <p class="lead" style="margin-top:10px;font-size:12.5px;color:var(--muted)">每个项目按“问题 — 我做了什么 — 结果 — 边界”说明。</p>
           <div class="cover-actions">
-            <a class="btn primary" href="#index">查看五个项目 <span>→</span></a>
+            <a class="btn primary" href="#index">查看四个项目 <span>→</span></a>
             <a class="btn" href="index.html">浏览完整页面 <span>↗</span></a>
           </div>
         </div>
@@ -277,16 +277,15 @@
           <a class="index-row" href="#taac"><span class="num">01</span><span class="name">TAAC 2026 · 点击率预估</span><span class="tag">算法赛</span></a>
           <a class="index-row" href="#afac"><span class="num">02</span><span class="name">AFAC 2026 · 金融长文本 Agent</span><span class="tag">算法赛</span></a>
           <a class="index-row" href="#bmo"><span class="num">03</span><span class="name">BMO 黑客松 · 文档知识图谱</span><span class="tag">GraphRAG</span></a>
-          <a class="index-row" href="#findex"><span class="num">04</span><span class="name">Findex · 企业协同 Agent</span><span class="tag">创业项目</span></a>
-          <a class="index-row" href="#tracker"><span class="num">05</span><span class="name">秋招辅助 · 本地求职工作台</span><span class="tag">独立开发</span></a>
+          <a class="index-row" href="#tracker"><span class="num">04</span><span class="name">秋招辅助 · 本地求职工作台</span><span class="tag">独立开发</span></a>
         </aside>
       </div>
     </section>
 
     <!-- 02 index -->
-    <section class="slide" id="index" aria-label="五个项目总览">
-      <div class="kicker">SELECTED WORK · 01 — 05</div>
-      <h2 class="title">五个<em>项目</em></h2>
+    <section class="slide" id="index" aria-label="四个项目总览">
+      <div class="kicker">SELECTED WORK · 01 — 04</div>
+      <h2 class="title">四个<em>项目</em></h2>
       <p class="lead" style="margin-top:12px;font-size:12.5px;max-width:980px">问题不同，交付不同。下面每一页沿用同一结构：问题、我做了什么、结果、边界。</p>
       <div class="cards">
         <a class="card" href="#taac">
@@ -310,22 +309,15 @@
           <p>5 天从 0 到可演示：文档抽取实体关系，写入 Neo4j，支持追问与证据高亮。</p>
           <div class="cstat"><b>438 / 1024</b>节点 / 关系</div>
         </a>
-        <a class="card" href="#findex">
-          <div class="cnum">04</div>
-          <div class="ctag">创业项目 · 团队</div>
-          <h3>Findex<br><em>企业协同 Agent</em></h3>
-          <p>订单变更后，让仓库、销售、财务看到同一份带出处的事实，再给老板一份简报。</p>
-          <div class="cstat"><b>14 页</b>Pitch Deck · 概念阶段</div>
-        </a>
         <a class="card" href="#tracker">
-          <div class="cnum">05</div>
+          <div class="cnum">04</div>
           <div class="ctag">独立开发 · 自用</div>
           <h3>秋招辅助<br><em>求职工作台</em></h3>
           <p>投递追踪、简历结构化、JD 匹配。公开岗位来源，数据留在本机。</p>
           <div class="cstat"><b>163 / 139</b>岗位 / 公司</div>
         </a>
       </div>
-      <div class="method-quote" style="margin-top:20px">“五个项目的问题不同，但都先判断问题在哪一层，再决定做什么。”<small>点击卡片或按 → 进入项目详情。</small></div>
+      <div class="method-quote" style="margin-top:20px">“四个项目的问题不同，但都先判断问题在哪一层，再决定做什么。”<small>点击卡片或按 → 进入项目详情。</small></div>
     </section>
 
     <!-- 03 TAAC -->
@@ -453,47 +445,11 @@
       </div>
     </section>
 
-    <!-- 06 Findex -->
-    <section class="slide" id="findex" aria-label="Findex">
-      <div class="proj-head">
-        <div>
-          <div class="kicker">PROJECT 04 · PolyU Micro Fund 2026–27 · Cohort 1</div>
-          <h2>Findex：企业协同 Agent，<em>概念验证</em></h2>
-        </div>
-        <div class="proj-meta">
-          <span class="pill mint">团队</span><span class="pill">试点与企业需求</span><span class="pill">概念阶段</span>
-        </div>
-      </div>
-      <div class="proj-body">
-        <div class="proj-left">
-          <div class="fact-row"><div class="fact-label">问题</div><p>一张订单的收货短了 30%：仓库知道，销售还在按旧交期承诺，财务无法判断付款。每个角色各拿一份信息，最后靠人传人。</p></div>
-          <div class="fact-row"><div class="fact-label">我做了什么</div><p>负责<b>试点与企业需求</b>。把带出处的事实、各岗位判断和老板简报分成 5 层；设计 3 个六个月内验证的 gate，明确系统不自动发消息、不自动付款。</p></div>
-          <div class="fact-row"><div class="fact-label">结果</div><p>完成 <b>14 页 Pitch Deck</b>，把“谁付费、谁拍板、什么时候验证”讲清楚。目前处于概念与 pitch deck 阶段。</p></div>
-          <div class="fact-row"><div class="fact-label">边界</div><p>这是团队创业项目，<b>我不是创始人</b>；我负责试点与企业需求。没有可在线使用的产品，下面展示的是 deck，不是已上线系统。</p></div>
-          <div class="insight"><b>关键判断：</b>先定谁拍板、谁付费，再定 Agent 替哪些环节省事。</div>
-          <div class="proj-links">
-            <a class="btn" href="index.html#findex">Findex 页面 ↗</a>
-            <a class="btn" href="assets/findex/Findex_Pitch_Deck.pdf" target="_blank" rel="noopener">下载 PDF ↓</a>
-          </div>
-        </div>
-        <aside class="visual">
-          <div class="visual-head"><span>Pitch Deck</span><b>Findex · 14 pages</b></div>
-          <div class="shot-wrap deck"><img src="assets/findex/page-01.jpg" alt="Findex Pitch Deck 封面"></div>
-          <div class="metric-row">
-            <div class="metric"><strong>5 层</strong><span>事实 / 判断 / 简报</span></div>
-            <div class="metric"><strong>3 个</strong><span>六个月验证 gate</span></div>
-            <div class="metric"><strong>14 页</strong><span>Pitch Deck</span></div>
-          </div>
-          <div class="shot-cap">团队项目 · 我负责试点与企业需求，不是创始人。</div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- 07 tracker -->
+    <!-- 06 tracker -->
     <section class="slide" id="tracker" aria-label="秋招辅助">
       <div class="proj-head">
         <div>
-          <div class="kicker">PROJECT 05 · 独立开发 · React + FastAPI + SQLite</div>
+          <div class="kicker">PROJECT 04 · 独立开发 · React + FastAPI + SQLite</div>
           <h2>秋招辅助：本地<em>求职工作台</em></h2>
         </div>
         <div class="proj-meta">
@@ -539,7 +495,7 @@
     <section class="slide" id="method" aria-label="工作方法">
       <div class="kicker">METHOD · 反复用到的三个动作</div>
       <h2 class="title">问题不同，<em>方法一致</em></h2>
-      <p class="lead" style="margin-top:12px;font-size:12.5px;max-width:980px">五个项目分别属于算法、产品、开发，但推进方式可以落到三个动作上。</p>
+      <p class="lead" style="margin-top:12px;font-size:12.5px;max-width:980px">四个项目分别属于算法、产品和开发，但推进方式可以落到三个动作上。</p>
       <div class="method-grid">
         <div class="method">
           <div class="mnum">01 · 判断问题在哪一层</div>
@@ -563,7 +519,7 @@
           <div class="mfoot">对应：开源生态 / 秋招辅助</div>
         </div>
       </div>
-      <div class="method-quote">“先判断问题在哪一层，再决定做什么；做完记录结果和边界，让下一个人能接着做。”<small>五个项目共用这一套流程。</small></div>
+      <div class="method-quote">“先判断问题在哪一层，再决定做什么；做完记录结果和边界，让下一个人能接着做。”<small>四个项目共用这一套流程。</small></div>
     </section>
 
     <!-- 09 contact -->
@@ -584,13 +540,13 @@
               <div><b>GitHub</b><span>@yeung0327 · 代码与项目仓库</span></div><i>↗</i>
             </a>
             <a class="contact-link" href="https://yeung0327.github.io/portfolio/" target="_blank" rel="noopener">
-              <div><b>完整作品集</b><span>五个项目的详细说明与截图</span></div><i>↗</i>
+              <div><b>完整作品集</b><span>四个项目的详细说明与截图</span></div><i>↗</i>
             </a>
             <a class="contact-link" href="https://yeung0327.github.io/portfolio/tracker-demo.html" target="_blank" rel="noopener">
               <div><b>秋招辅助 Demo</b><span>虚构数据的交互示例</span></div><i>↗</i>
             </a>
-            <a class="contact-link" href="https://yeung0327.github.io/portfolio/#findex" target="_blank" rel="noopener">
-              <div><b>Findex Pitch Deck</b><span>14 页；在作品集页面内可在线翻页</span></div><i>↗</i>
+            <a class="contact-link" href="https://yeung0327.github.io/portfolio/deck.html" target="_blank" rel="noopener">
+              <div><b>演示版作品集</b><span>可翻页的项目演示</span></div><i>↗</i>
             </a>
           </div>
           <div class="contact-note">所有团队项目都标注了实际分工；比赛成绩区分官方结果与内部验证口径；不可公开的数据、API key 和真实投递记录都没有放进来。</div>
@@ -605,7 +561,7 @@
       </div>
       <div class="nav">
         <button type="button" id="prevBtn" aria-label="上一页">←</button>
-        <span class="counter" id="counter">01 / 09</span>
+        <span class="counter" id="counter">01 / 08</span>
         <button type="button" id="nextBtn" aria-label="下一页">→</button>
       </div>
     </div>
