@@ -102,22 +102,23 @@
   .micro{font-size:11px;line-height:1.7;color:var(--muted)}
 
   /* cover */
-  .cover-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr);gap:64px;align-items:end;flex:1;padding-top:34px}
-  .cover .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:26px;font:10px/1 var(--mono);letter-spacing:.18em;color:var(--mint);text-transform:uppercase}
+  .cover-grid{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;flex:1;padding-top:0;text-align:center}
+  .cover-main{display:flex;flex-direction:column;align-items:center;max-width:900px}
+  .cover .eyebrow{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:26px;font:10px/1 var(--mono);letter-spacing:.18em;color:var(--mint);text-transform:uppercase}
   .cover .eyebrow::before{content:"";width:34px;height:1px;background:var(--mint)}
-  .cover h1{font-family:var(--serif);font-size:116px;line-height:.95;letter-spacing:-.06em;font-weight:500;margin-bottom:26px}
+  .cover h1{font-family:var(--serif);font-size:112px;line-height:.95;letter-spacing:-.06em;font-weight:500;margin-bottom:26px}
   .cover h1 em{font-style:italic;color:var(--lime)}
-  .cover .lead{max-width:640px}
-  .cover-actions{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap}
+  .cover .lead{max-width:700px}
+  .cover-actions{display:flex;justify-content:center;gap:10px;margin-top:30px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border-radius:999px;padding:10px 15px;font-size:11px;letter-spacing:.03em;border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--paper);transition:.2s}
   .btn:hover{border-color:rgba(216,255,114,.55);color:var(--lime);transform:translateY(-1px)}
   .btn.primary{background:var(--lime);border-color:var(--lime);color:#0a0d09;font-weight:600}
   .btn.primary:hover{background:#e5ff9d;color:#0a0d09}
-  .hero-index{border-top:1px solid var(--line)}
-  .index-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line-2);transition:.2s}
-  .index-row:hover{padding-left:6px;color:var(--lime)}
+  .hero-index{width:100%;max-width:1180px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;border-top:1px solid var(--line);padding-top:16px}
+  .index-row{display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-decoration:none;border:1px solid var(--line-2);border-radius:10px;padding:11px 13px;background:rgba(255,255,255,.02);text-align:left;transition:.2s}
+  .index-row:hover{border-color:rgba(216,255,114,.45);background:rgba(216,255,114,.04);transform:translateY(-2px)}
   .index-row .num{font:9px/1 var(--mono);color:var(--dim)}
-  .index-row .name{font-size:12px;line-height:1.4}
+  .index-row .name{font-size:11px;line-height:1.4}
   .index-row .tag{font-size:9px;color:var(--dim);white-space:nowrap}
   .cover-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--line);margin-top:50px;padding-top:16px;font:9px/1.5 var(--mono);letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
 
@@ -254,7 +255,6 @@
     <div class="chrome">
       <a class="brand" href="index.html"><b>杨千钎</b><span>PORTFOLIO 2026 · 演示版</span></a>
       <div class="chrome-actions">
-        <span class="status"><i></i>2027 校招 · 求职中</span>
         <a href="index.html">完整作品集 ↗</a>
         <button type="button" id="fsBtn" aria-label="全屏演示">全屏</button>
       </div>
@@ -263,7 +263,7 @@
     <!-- 01 cover -->
     <section class="slide cover active" id="cover" aria-label="封面">
       <div class="cover-grid">
-        <div>
+        <div class="cover-main">
           <div class="eyebrow">杨千钎 · 2027 校招</div>
           <h1>项目<em>作品集</em></h1>
           <p class="lead">香港理工大学商业分析硕士在读。五个项目：两场算法赛、一次黑客松、一个创业项目，以及一份自己每天在用的求职工作台。</p>
@@ -280,10 +280,6 @@
           <a class="index-row" href="#findex"><span class="num">04</span><span class="name">Findex · 企业协同 Agent</span><span class="tag">创业项目</span></a>
           <a class="index-row" href="#tracker"><span class="num">05</span><span class="name">秋招辅助 · 本地求职工作台</span><span class="tag">独立开发</span></a>
         </aside>
-      </div>
-      <div class="cover-foot">
-        <span>5 个项目 · 问题 / 动作 / 结果 / 边界</span>
-        <span>数据分析 · 大模型应用 · 产品运营</span>
       </div>
     </section>
 
