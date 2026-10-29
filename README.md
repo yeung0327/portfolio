@@ -7,6 +7,7 @@
 | TAAC 2026 | 案例 + GitHub + 讲解视频 | `index.html#taac` |
 | AFAC 2026 | 案例 + GitHub | `index.html#afac` |
 | 百度 BMO 黑客松 | 案例 + 3 张产品截图 + GitHub | `index.html#bmo` |
+| 百度 BMO 在线 Demo | 静态知识树演示（预置数据，无后端） | `bmo-demo/` |
 | Findex | 项目摘要 + 封面；完整 Pitch Deck 不公开 | `index.html#findex` |
 | 秋招辅助 | 虚构示例数据的交互 Demo | `tracker-demo.html` |
 | 演示版 | 16:9 翻页演示，支持键盘方向键 | `deck.html` |
@@ -68,6 +69,7 @@ GitHub 仓库 → **Settings** → **Pages** → **Build and deployment**
 
 - 首页五个项目都能滚动到
 - TAAC / AFAC / BMO 的 GitHub 链接能打开
+- BMO 的在线 Demo 能打开，两个知识树可以切换
 - Findex 只显示摘要与封面，没有完整 deck 或 PDF 入口
 - 秋招辅助 Demo 的四个标签页能切换
 - 手机宽度下没有横向滚动条
@@ -81,6 +83,7 @@ GitHub 仓库 → **Settings** → **Pages** → **Build and deployment**
 ├── index.html                 # 作品集主页
 ├── deck.html                  # 16:9 翻页演示版
 ├── tracker-demo.html          # 秋招辅助静态 Demo（虚构数据）
+├── bmo-demo/                  # BMO 静态知识树 Demo（Next.js 导出，预置数据）
 ├── README.md
 ├── .nojekyll                  # 让 GitHub Pages 跳过 Jekyll 处理
 └── assets/
@@ -103,6 +106,7 @@ GitHub 仓库 → **Settings** → **Pages** → **Build and deployment**
 - **Findex**：团队创业项目，页面写明“不是创始人、负责试点与企业需求、仍处于概念阶段”；只展示摘要和封面，完整 Pitch Deck 与 PDF 不放进线上页面。
 - **秋招辅助 Demo**：只用虚构公司名和示例分数，不连接 SQLite、不调用 DeepSeek、不需要 API key。
 - **BMO 截图**：截图里的成员姓名已做模糊处理；未打码原图放在部署目录外的 `_原始截图暂不发布/`。
+- **BMO 在线 Demo**：使用预置知识树数据，不连接 Neo4j / DeepSeek；原版完整链路需要后端与 API key，不在静态站点里公开。
 - **不发布**：真实 `backend/app.db`、`backend/.env`、`_凭证勿外传` 以及任何真实投递记录都不要上传。
 
 ---
@@ -119,3 +123,4 @@ GitHub 仓库 → **Settings** → **Pages** → **Build and deployment**
 ## 更新记录
 
 - 2026-10：建立作品集，加入 5 个项目、BMO 截图和秋招辅助交互 Demo；Findex 仅展示摘要与封面。
+- 2026-10：加入 BMO 静态知识树在线 Demo；补充秋招辅助的本地简历上传演示。
