@@ -365,12 +365,12 @@
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">Business Analysis × AI Product</div>
-        <h1>把复杂问题，<br><em>做成能用的东西。</em></h1>
+        <div class="eyebrow">杨千钎 · 2027 校招</div>
+        <h1>项目作品集<br><em>2025—2026</em></h1>
         <p class="hero-copy">
-          香港理工大学商业分析硕士在读。做过百度大模型产品运营实习，也打过广告算法、金融 Agent 和黑客松；
-          还给自己写了一个每天都在用的求职工作台。
-          <b>我关心的不是“讲得漂亮”，而是问题有没有被拆清、结果能不能被验证。</b>
+          香港理工大学商业分析硕士在读。做过百度大模型产品运营实习，参加过 TAAC、AFAC 和百度 BMO 黑客松；
+          另外给自己写了一个求职工作台。
+          <b>每个项目都写清问题、我做了什么、结果怎么验证，以及项目边界。</b>
         </p>
         <div class="hero-actions">
           <a class="btn primary" href="#work">看五个项目 <span>↓</span></a>
@@ -380,14 +380,14 @@
       <aside class="hero-index" aria-label="项目索引">
         <a class="index-row" href="#taac"><span class="num">01</span><span class="name">TAAC 2026 · 点击率预估</span><span class="tag">算法赛</span></a>
         <a class="index-row" href="#afac"><span class="num">02</span><span class="name">AFAC 2026 · 金融长文本 Agent</span><span class="tag">算法赛</span></a>
-        <a class="index-row" href="#bmo"><span class="num">03</span><span class="name">BMO 黑客松 · 知识宇宙</span><span class="tag">GraphRAG</span></a>
+        <a class="index-row" href="#bmo"><span class="num">03</span><span class="name">BMO 黑客松 · 文档知识图谱</span><span class="tag">GraphRAG</span></a>
         <a class="index-row" href="#findex"><span class="num">04</span><span class="name">Findex · 企业协同 Agent</span><span class="tag">创业项目</span></a>
         <a class="index-row" href="#tracker"><span class="num">05</span><span class="name">秋招辅助 · 自用产品</span><span class="tag">独立开发</span></a>
       </aside>
     </div>
     <div class="hero-foot">
-      <span>5 selected works · 2025—2026</span>
-      <span>Data → product → decision</span>
+      <span>5 个项目 · 2025—2026</span>
+      <span>数据分析 · 大模型应用 · 产品运营</span>
     </div>
   </section>
 
@@ -395,16 +395,16 @@
     <div class="section-head reveal">
       <div>
         <div class="section-kicker">Selected Work / 01—05</div>
-        <h2>五件做过的事，<em>五种问题。</em></h2>
+        <h2>五个<em>项目</em></h2>
       </div>
-      <p>不把简历摊开，而是把每个项目放回“问题—动作—结果—边界”里。能公开的代码和作品都给了链接；团队成果会标清我的那一部分。</p>
+      <p>每个项目按“问题—动作—结果—边界”整理。能公开的代码和作品都给了链接；团队成果会标清我的那一部分。</p>
     </div>
 
     <article class="project reveal" id="taac">
       <div class="project-num">01</div>
       <div class="project-main">
         <div class="project-meta">Tencent Advertising Algorithm Competition 2026 <span class="pill">KDD Cup · Academic Track</span><span class="pill">团队</span></div>
-        <h3>TAAC 2026<br><em>让 CTR 模型更懂序列</em></h3>
+        <h3>TAAC 2026<br><em>点击率预估与消融实验</em></h3>
         <p class="lede">
           约 100 万条脱敏广告曝光、120 个平铺特征、四个域的行为序列。团队在官方 PCVRHyFormer 基线上改出 InterFormer 路线，加入 Focal Loss、RoPE、CrossSummary 等模块，比较“更大的模型”和“更好的序列建模”哪条路更值。
         </p>
@@ -446,7 +446,7 @@
       <div class="project-num">02</div>
       <div class="project-main">
         <div class="project-meta">AFAC 2026 <span class="pill">挑战组赛题四</span><span class="pill">金融长文本 Agent</span></div>
-        <h3>AFAC 2026<br><em>在 Qwen-only 的夹缝里<br>做长文本问答</em></h3>
+        <h3>AFAC 2026<br><em>Qwen-only 长文本问答</em></h3>
         <p class="lede">
           190 份 PDF、377 份 HTML、6 份 TXT，约 343 MB 的保险条款、监管文件、合同和研报。赛题禁止 embedding，只能让 Qwen 完成正式答题；团队用 BM25 和规则字段做召回，再用 Self-RAG / CRAG 式自检压缩上下文、逐选项判断“支持 / 反驳 / 证据不足”。
         </p>
@@ -471,7 +471,7 @@
             <div class="constraint"><b>343 MB</b>190 PDF · 377 HTML · 6 TXT</div>
           </div>
           <div class="score-line"><strong>70.91</strong><span>合规 Qwen-only 内部验证峰值<br>非官方排名</span></div>
-          <p class="score-note">长文本不是“全塞进去”，而是先定位证据，再让模型在证据内做判断。</p>
+          <p class="score-note">做法是先定位证据，再让模型在证据范围内做判断。</p>
         </div>
       </div>
     </article>
@@ -480,9 +480,9 @@
       <div class="project-num">03</div>
       <div class="project-main">
         <div class="project-meta">百度 BMO 黑客松 2026 <span class="pill">单人 + AI 协作</span><span class="pill">5 天</span><span class="pill">全国三等奖</span></div>
-        <h3>Roots &amp; Shoots<br><em>把文档变成<br>一张可问的知识图谱</em></h3>
+        <h3>Roots &amp; Shoots<br><em>文档知识图谱与问答</em></h3>
         <p class="lede">
-          上传文档后，模型抽取实体和关系，写进 Neo4j，形成一个可以双击探索、可以追问、可以在回答时高亮证据的知识图谱。它不只是“聊天”，而是让答案沿着图谱里的关系走。
+          上传文档后，模型抽取实体和关系，写进 Neo4j，生成可浏览、可追问的知识图谱。回答时会高亮引用的证据；证据不足时明确说明找不到，不编造结论。
         </p>
         <div class="role-line"><b>我的角色</b><span>单人完成 · 产品定义、前后端联调、Neo4j 与 DeepSeek 接入</span></div>
         <div class="fact-list">
@@ -512,7 +512,7 @@
       <div class="project-num">04</div>
       <div class="project-main">
         <div class="project-meta">PolyU Micro Fund 2026–27 <span class="pill">Cohort 1</span><span class="pill">团队</span><span class="pill">概念验证</span></div>
-        <h3>Findex<br><em>一次变更，<br>让每个角色都知道</em></h3>
+        <h3>Findex<br><em>企业协同 Agent · 概念验证</em></h3>
         <p class="lede">
           一张订单的收货短了 30%：仓库知道，销售还在按旧交期承诺，财务无法判断付款。Findex 把带出处的事实放进工作台，让各岗位 Agent 复核自己的判断，最后给老板一份决策简报——老板拍板，系统不自动发消息、不自动付款。
         </p>
@@ -550,7 +550,7 @@
       <div class="project-num">05</div>
       <div class="project-main">
         <div class="project-meta">独立开发 <span class="pill">自用产品</span><span class="pill">React + FastAPI + SQLite</span></div>
-        <h3>秋招辅助<br><em>把 163 个岗位<br>收进一张工作台</em></h3>
+        <h3>秋招辅助<br><em>本地求职工作台</em></h3>
         <p class="lede">
           投递追踪、简历结构化、JD 匹配、新岗位发现。岗位只从公开的社区维护 Markdown 汇总同步，不碰商业招聘平台；数据存在本机 SQLite，DeepSeek 只负责解析和匹配，不把整份简历发到公网。
         </p>
@@ -591,20 +591,20 @@
     <div class="section-head reveal">
       <div>
         <div class="section-kicker">About / How I Work</div>
-        <h2>先问“谁要做决定”，<br><em>再想“模型能帮什么”。</em></h2>
+        <h2>先看业务问题，<br><em>再看模型能做什么。</em></h2>
       </div>
-      <p>我的工作方式更接近“翻译”：把业务现场的问题翻译成数据与模型任务，再把模型结果翻译成一个人能拍板的形式。</p>
+      <p>我的工作方式：先把业务现场的问题拆成数据与模型任务，再把模型结果整理成可以拍板的结论。</p>
     </div>
     <div class="about-grid">
       <div class="reveal">
-        <p class="about-statement">商业分析给我拆问题的框架，<br><em>实习和比赛给我真实的问题。</em></p>
+        <p class="about-statement">商业分析训练拆问题的框架，<br><em>实习和比赛提供真实问题。</em></p>
         <p class="about-copy">
           在百度做大模型产品运营相关工作时，我花了很多时间在客户场景、产品材料和生态合作上；
           在 TAAC、AFAC 和黑客松里，我学会了看指标、做对照、承认失败实验；Findex 让我第一次认真想“一个 Agent 产品到底谁付费”；
           秋招辅助则是我把自己的求职流程做成工具，每天用、每天改。
         </p>
         <p class="about-copy">
-          <b>2027 校招方向：</b>大模型产品运营 / 产品运营 / 数据分析 / 解决方案。比起“用过哪个框架”，我更愿意讲清楚：问题是什么、做了什么、结果怎么验证、哪里还没做好。
+          <b>2027 校招方向：</b>大模型产品运营 / 产品运营 / 数据分析 / 解决方案。面试里我会具体讲：问题是什么、做了什么、结果怎么验证、哪里还没做好。
         </p>
         <div class="skill-grid">
           <div class="skill"><b>产品与运营</b><span>需求拆解 · 客户访谈 · 场景方案 · 生态合作</span></div>
@@ -631,7 +631,7 @@
     <div class="contact-inner reveal">
       <div>
         <div class="section-kicker">Contact</div>
-        <h2>如果你在找<br><em>能把问题拆开的人。</em></h2>
+        <h2>联系<em>方式</em></h2>
         <p>欢迎通过 GitHub 找到我。简历和其他材料可以另外发；这个页面只展示可以公开的作品与边界。</p>
       </div>
       <div class="contact-actions">
@@ -642,7 +642,7 @@
   </section>
   <footer class="footer">
     <span>杨千钎 · Portfolio 2026</span>
-    <span>Built with evidence, not adjectives.</span>
+    <span>静态页面 · GitHub Pages</span>
     <span>Last updated 2026.10</span>
   </footer>
 
