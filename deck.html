@@ -1,0 +1,729 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>杨千钎 · 项目作品集（演示版）</title>
+<meta name="description" content="杨千钎项目作品集的演示版：支持键盘翻页，包含 TAAC、AFAC、BMO、Findex 和秋招辅助五个项目。">
+<style>
+  :root{
+    --ink:#080b10;
+    --paper:#f1efe6;
+    --muted:#9aa6a3;
+    --dim:#66736f;
+    --line:rgba(241,239,230,.13);
+    --line-2:rgba(241,239,230,.07);
+    --lime:#d8ff72;
+    --mint:#5ee0c2;
+    --orange:#ff8a5c;
+    --blue:#8fb1ff;
+    --serif:"Songti SC","STSong","Noto Serif SC","Times New Roman",serif;
+    --sans:"Avenir Next","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:"SF Mono","Menlo","Consolas",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:#05070a;color:var(--paper);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  button{font:inherit;color:inherit;cursor:pointer}
+  ::selection{background:var(--lime);color:#0a0d09}
+  #viewport{position:fixed;inset:0;overflow:hidden}
+  #stage{
+    position:absolute;left:0;top:0;width:1600px;height:900px;overflow:clip;
+    background:
+      radial-gradient(900px 600px at 88% -12%,rgba(94,224,194,.10),transparent 62%),
+      radial-gradient(700px 500px at -8% 28%,rgba(143,177,255,.08),transparent 62%),
+      linear-gradient(rgba(241,239,230,.022) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(241,239,230,.022) 1px,transparent 1px),
+      var(--ink);
+    background-size:auto,auto,72px 72px,72px 72px,auto;
+    transform-origin:top left;
+  }
+  #stage::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:radial-gradient(1200px 700px at 50% 50%,transparent 60%,rgba(0,0,0,.28));
+  }
+
+  /* ---------- global chrome ---------- */
+  .chrome{
+    position:absolute;left:0;right:0;top:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:22px 54px 0;
+  }
+  .brand{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+  .brand b{font-family:var(--serif);font-size:18px;font-weight:600;letter-spacing:-.02em}
+  .brand span{font:9px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+  .chrome-actions{display:flex;align-items:center;gap:10px}
+  .chrome-actions a,.chrome-actions button{
+    display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    border:1px solid rgba(241,239,230,.14);background:rgba(255,255,255,.03);
+    border-radius:999px;padding:7px 12px;font-size:10px;letter-spacing:.05em;
+    color:var(--muted);transition:.2s;
+  }
+  .chrome-actions a:hover,.chrome-actions button:hover{border-color:rgba(216,255,114,.55);color:var(--lime)}
+  .status{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(216,255,114,.25);background:rgba(216,255,114,.06);color:var(--lime);border-radius:999px;padding:7px 11px;font-size:10px;letter-spacing:.04em;white-space:nowrap}
+  .status i{width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(216,255,114,.1)}
+
+  .foot{
+    position:absolute;left:54px;right:54px;bottom:26px;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    font:9px/1.4 var(--mono);letter-spacing:.08em;color:var(--dim);text-transform:uppercase;
+  }
+  .foot-left{display:flex;align-items:center;gap:16px}
+  .foot-hint{color:var(--dim)}
+  .nav{display:flex;align-items:center;gap:8px}
+  .nav button{
+    width:32px;height:32px;border-radius:50%;border:1px solid var(--line);
+    background:rgba(255,255,255,.035);color:var(--muted);font-size:14px;line-height:1;
+    transition:.2s;
+  }
+  .nav button:hover{border-color:rgba(216,255,114,.55);color:var(--lime)}
+  .counter{font:10px/1 var(--mono);letter-spacing:.08em;color:var(--muted);min-width:58px;text-align:center}
+  .progress{position:absolute;left:0;top:0;height:2px;background:var(--lime);width:0;z-index:30;transition:width .35s ease;box-shadow:0 0 14px rgba(216,255,114,.45)}
+
+  /* ---------- slides ---------- */
+  .slide{
+    position:absolute;inset:0;z-index:2;padding:96px 76px 86px;
+    display:flex;flex-direction:column;
+    opacity:0;visibility:hidden;transform:translateY(14px);
+    transition:opacity .38s ease,transform .38s ease,visibility .38s;
+  }
+  .slide.active{opacity:1;visibility:visible;transform:none;z-index:3}
+  .slide.cover{z-index:4}
+  .slide.active.cover{opacity:1}
+
+  .kicker{display:flex;align-items:center;gap:12px;font:10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mint);margin-bottom:18px}
+  .kicker::before{content:"";width:34px;height:1px;background:var(--mint)}
+  h1,h2,h3,p{margin:0}
+  .display{font-family:var(--serif);font-weight:500;letter-spacing:-.055em;font-size:96px;line-height:.98}
+  .display em{font-style:italic;color:var(--lime)}
+  .title{font-family:var(--serif);font-weight:500;letter-spacing:-.045em;font-size:54px;line-height:1.05;margin:0}
+  .title em{font-style:italic;color:var(--lime)}
+  .lead{font-size:15px;line-height:1.9;color:#c3ccc7;max-width:760px}
+  .micro{font-size:11px;line-height:1.7;color:var(--muted)}
+
+  /* cover */
+  .cover-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(340px,.75fr);gap:64px;align-items:end;flex:1;padding-top:34px}
+  .cover .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:26px;font:10px/1 var(--mono);letter-spacing:.18em;color:var(--mint);text-transform:uppercase}
+  .cover .eyebrow::before{content:"";width:34px;height:1px;background:var(--mint)}
+  .cover h1{font-family:var(--serif);font-size:116px;line-height:.95;letter-spacing:-.06em;font-weight:500;margin-bottom:26px}
+  .cover h1 em{font-style:italic;color:var(--lime)}
+  .cover .lead{max-width:640px}
+  .cover-actions{display:flex;gap:10px;margin-top:30px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border-radius:999px;padding:10px 15px;font-size:11px;letter-spacing:.03em;border:1px solid var(--line);background:rgba(255,255,255,.035);color:var(--paper);transition:.2s}
+  .btn:hover{border-color:rgba(216,255,114,.55);color:var(--lime);transform:translateY(-1px)}
+  .btn.primary{background:var(--lime);border-color:var(--lime);color:#0a0d09;font-weight:600}
+  .btn.primary:hover{background:#e5ff9d;color:#0a0d09}
+  .hero-index{border-top:1px solid var(--line)}
+  .index-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line-2);transition:.2s}
+  .index-row:hover{padding-left:6px;color:var(--lime)}
+  .index-row .num{font:9px/1 var(--mono);color:var(--dim)}
+  .index-row .name{font-size:12px;line-height:1.4}
+  .index-row .tag{font-size:9px;color:var(--dim);white-space:nowrap}
+  .cover-foot{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--line);margin-top:50px;padding-top:16px;font:9px/1.5 var(--mono);letter-spacing:.08em;color:var(--dim);text-transform:uppercase}
+
+  /* project index slide */
+  .cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:30px;flex:1;min-height:0}
+  .card{
+    display:flex;flex-direction:column;text-decoration:none;border:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+    border-radius:14px;padding:20px 18px;transition:.2s;min-height:0;
+  }
+  .card:hover{border-color:rgba(216,255,114,.45);transform:translateY(-3px);background:rgba(216,255,114,.05)}
+  .card .cnum{font:10px/1 var(--mono);color:var(--lime);margin-bottom:16px}
+  .card .ctag{font:9px/1.4 var(--mono);letter-spacing:.1em;color:var(--dim);text-transform:uppercase;margin-bottom:10px}
+  .card h3{font-family:var(--serif);font-size:24px;line-height:1.15;font-weight:500;letter-spacing:-.03em;margin-bottom:10px}
+  .card h3 em{font-style:italic;color:var(--lime)}
+  .card p{font-size:11px;line-height:1.7;color:var(--muted)}
+  .card .cstat{margin-top:auto;padding-top:18px;font:10px/1.6 var(--mono);color:var(--mint)}
+  .card .cstat b{display:block;font:600 24px/1.1 var(--sans);color:var(--paper);letter-spacing:-.02em}
+
+  /* project slides */
+  .proj-head{display:flex;align-items:flex-start;justify-content:space-between;gap:24px;border-bottom:1px solid var(--line);padding-bottom:18px}
+  .proj-head .kicker{margin-bottom:12px}
+  .proj-head h2{font-family:var(--serif);font-size:50px;line-height:1.05;letter-spacing:-.045em;font-weight:500}
+  .proj-head h2 em{font-style:italic;color:var(--lime)}
+  .proj-meta{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:430px;padding-top:4px}
+  .pill{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:9px;line-height:1;color:var(--muted);letter-spacing:.03em;white-space:nowrap}
+  .pill.lime{border-color:rgba(216,255,114,.3);background:rgba(216,255,114,.06);color:var(--lime)}
+  .pill.mint{border-color:rgba(94,224,194,.3);background:rgba(94,224,194,.06);color:var(--mint)}
+  .pill.blue{border-color:rgba(143,177,255,.3);background:rgba(143,177,255,.06);color:var(--blue)}
+  .pill.orange{border-color:rgba(255,138,92,.3);background:rgba(255,138,92,.06);color:var(--orange)}
+  .proj-body{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(380px,.72fr);gap:42px;flex:1;min-height:0;padding-top:20px}
+  .proj-left{display:flex;flex-direction:column;min-height:0;justify-content:space-between}
+  .fact-row{display:grid;grid-template-columns:88px minmax(0,1fr);gap:16px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+  .fact-row:last-of-type{border-bottom:0}
+  .fact-label{font:10px/1.5 var(--mono);letter-spacing:.1em;color:var(--mint);text-transform:uppercase;padding-top:2px}
+  .fact-row:nth-child(2) .fact-label{color:var(--blue)}
+  .fact-row:nth-child(3) .fact-label{color:var(--lime)}
+  .fact-row:nth-child(4) .fact-label{color:var(--orange)}
+  .fact-row p{font-size:12.5px;line-height:1.85;color:#c3ccc7}
+  .fact-row p b{color:var(--paper);font-weight:600}
+  .insight{border-left:2px solid var(--lime);padding:2px 0 2px 14px;font-size:12.5px;line-height:1.8;color:#c3ccc7}
+  .insight b{color:var(--lime);font-weight:600}
+  .proj-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:0;padding-top:14px}
+  .proj-links .btn{padding:8px 13px;font-size:10px}
+  .visual{border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));padding:22px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+  .visual-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font:9px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--dim);border-bottom:1px solid var(--line-2);padding-bottom:12px;margin-bottom:18px}
+  .visual-head b{color:var(--muted);font-weight:500;letter-spacing:.06em}
+
+  /* bars */
+  .bars{display:flex;flex-direction:column;gap:20px;flex:1;justify-content:space-evenly}
+  .bar-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
+  .bar-top strong{font:600 20px/1 var(--sans);color:var(--paper);letter-spacing:-.02em}
+  .bar-track{height:7px;border-radius:99px;background:rgba(241,239,230,.09);overflow:hidden}
+  .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--mint),var(--lime))}
+  .bar-fill.peak{background:linear-gradient(90deg,var(--blue),#c7d5ff)}
+  .bar-note{font:9px/1.5 var(--mono);color:var(--dim);margin-top:6px}
+  .delta{margin-top:auto;border-top:1px solid var(--line-2);padding-top:16px}
+  .delta strong{display:block;font:600 42px/1 var(--sans);letter-spacing:-.04em;color:var(--lime)}
+  .delta span{display:block;margin-top:8px;font-size:10px;line-height:1.65;color:var(--muted)}
+
+  /* constraints / score */
+  .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .constraint{border:1px solid var(--line-2);border-radius:10px;padding:12px;background:rgba(255,255,255,.02)}
+  .constraint b{display:block;font:10px/1.3 var(--mono);letter-spacing:.06em;color:var(--blue);margin-bottom:6px;text-transform:uppercase}
+  .constraint span{font-size:10.5px;line-height:1.6;color:var(--muted)}
+  .score{margin-top:auto;border-top:1px solid var(--line-2);padding-top:18px;display:flex;align-items:flex-end;gap:16px}
+  .score strong{font:600 62px/1 var(--sans);letter-spacing:-.05em;color:var(--mint)}
+  .score span{font-size:10.5px;line-height:1.7;color:var(--muted);padding-bottom:6px}
+  .score-note{margin-top:12px;font-size:11px;line-height:1.7;color:var(--muted)}
+  .idea-chain{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px;padding:11px 12px;border:1px solid var(--line-2);border-radius:10px;font-size:10px;color:var(--muted)}
+  .idea-chain b{font:9px/1 var(--mono);letter-spacing:.1em;color:var(--lime)}
+  .idea-chain i{font-style:normal;color:var(--dim)}
+  .mexample{margin-top:16px;border:1px solid var(--line-2);border-radius:8px;padding:11px 12px;font-size:10.5px;line-height:1.7;color:var(--muted)}
+  .mexample b{display:block;color:var(--mint);font:9px/1.4 var(--mono);letter-spacing:.1em;margin-bottom:4px}
+
+  /* image visual */
+  .shot-wrap{border:1px solid var(--line-2);border-radius:10px;overflow:hidden;background:#0a0e12;position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+  .shot-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center}
+  .shot-wrap.deck img{object-fit:contain;object-position:center;padding:10px;background:#070a0d}
+  .shot-cap{font:9px/1.6 var(--mono);color:var(--dim);margin-top:10px}
+  .metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+  .metric{border:1px solid var(--line-2);border-radius:10px;padding:12px;background:rgba(255,255,255,.02)}
+  .metric strong{display:block;font:600 28px/1 var(--sans);letter-spacing:-.03em;color:var(--paper)}
+  .metric span{display:block;margin-top:6px;font-size:9.5px;line-height:1.5;color:var(--dim)}
+
+  /* mini app */
+  .mini{border:1px solid var(--line-2);border-radius:10px;background:#0a0e12;overflow:hidden}
+  .mini-top{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line-2);font:9px/1 var(--mono);letter-spacing:.08em;color:var(--muted)}
+  .mini-top i{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--lime);margin-right:5px}
+  .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line-2)}
+  .mini-stat{padding:10px 12px;border-right:1px solid var(--line-2)}
+  .mini-stat:last-child{border-right:0}
+  .mini-stat strong{display:block;font:600 20px/1 var(--sans);color:var(--paper)}
+  .mini-stat span{display:block;margin-top:4px;font-size:8.5px;color:var(--dim)}
+  .mini-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line-2)}
+  .mini-row:last-child{border-bottom:0}
+  .mini-row b{font-size:10px;font-weight:600;color:var(--paper)}
+  .mini-row span{font-size:9px;color:var(--dim)}
+  .mini-status{font-size:8px!important;color:var(--mint)!important;border:1px solid rgba(94,224,194,.28);border-radius:99px;padding:3px 7px;white-space:nowrap}
+
+  /* method slide */
+  .method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;flex:1;min-height:0}
+  .method{border:1px solid var(--line);border-radius:14px;padding:24px;background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.018));display:flex;flex-direction:column}
+  .method .mnum{font:10px/1 var(--mono);color:var(--mint);letter-spacing:.12em;margin-bottom:20px}
+  .method h3{font-family:var(--serif);font-size:30px;line-height:1.2;font-weight:500;letter-spacing:-.03em;margin-bottom:14px}
+  .method h3 em{font-style:italic;color:var(--lime)}
+  .method p{font-size:11.5px;line-height:1.85;color:var(--muted)}
+  .method .mfoot{margin-top:auto;padding-top:18px;border-top:1px solid var(--line-2);font:9px/1.6 var(--mono);color:var(--dim)}
+  .method-quote{margin-top:22px;border-left:2px solid var(--lime);padding:2px 0 2px 18px;font-size:14px;line-height:1.8;color:#c3ccc7}
+  .method-quote small{display:block;margin-top:6px;font:9px/1.5 var(--mono);color:var(--dim);letter-spacing:.05em}
+
+  /* contact */
+  .contact-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(380px,.8fr);gap:60px;align-items:center;flex:1;padding-top:20px}
+  .contact .display{font-size:88px}
+  .contact .lead{margin-top:22px;max-width:620px}
+  .contact-links{display:flex;flex-direction:column;gap:10px}
+  .contact-link{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--line);border-radius:12px;padding:16px 18px;text-decoration:none;background:rgba(255,255,255,.025);transition:.2s}
+  .contact-link:hover{border-color:rgba(216,255,114,.5);background:rgba(216,255,114,.05);transform:translateX(3px)}
+  .contact-link b{display:block;font-size:12px;font-weight:600;margin-bottom:4px}
+  .contact-link span{font-size:10px;line-height:1.5;color:var(--muted)}
+  .contact-link i{font-style:normal;color:var(--dim);font-size:14px}
+  .contact-note{margin-top:18px;border-top:1px solid var(--line-2);padding-top:14px;font-size:10.5px;line-height:1.75;color:var(--dim)}
+
+  @media (prefers-reduced-motion: reduce){
+    .slide,.progress{transition:none}
+  }
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div class="progress" id="progress"></div>
+
+    <div class="chrome">
+      <a class="brand" href="index.html"><b>杨千钎</b><span>PORTFOLIO 2026 · 演示版</span></a>
+      <div class="chrome-actions">
+        <span class="status"><i></i>2027 校招 · 求职中</span>
+        <a href="index.html">完整作品集 ↗</a>
+        <button type="button" id="fsBtn" aria-label="全屏演示">全屏</button>
+      </div>
+    </div>
+
+    <!-- 01 cover -->
+    <section class="slide cover active" id="cover" aria-label="封面">
+      <div class="cover-grid">
+        <div>
+          <div class="eyebrow">杨千钎 · 2027 校招</div>
+          <h1>项目<em>作品集</em></h1>
+          <p class="lead">香港理工大学商业分析硕士在读。五个项目：两场算法赛、一次黑客松、一个创业项目，以及一份自己每天在用的求职工作台。</p>
+          <p class="lead" style="margin-top:10px;font-size:12.5px;color:var(--muted)">每个项目按“问题 — 我做了什么 — 结果 — 边界”说明。</p>
+          <div class="cover-actions">
+            <a class="btn primary" href="#index">查看五个项目 <span>→</span></a>
+            <a class="btn" href="index.html">浏览完整页面 <span>↗</span></a>
+          </div>
+        </div>
+        <aside class="hero-index" aria-label="项目索引">
+          <a class="index-row" href="#taac"><span class="num">01</span><span class="name">TAAC 2026 · 点击率预估</span><span class="tag">算法赛</span></a>
+          <a class="index-row" href="#afac"><span class="num">02</span><span class="name">AFAC 2026 · 金融长文本 Agent</span><span class="tag">算法赛</span></a>
+          <a class="index-row" href="#bmo"><span class="num">03</span><span class="name">BMO 黑客松 · 文档知识图谱</span><span class="tag">GraphRAG</span></a>
+          <a class="index-row" href="#findex"><span class="num">04</span><span class="name">Findex · 企业协同 Agent</span><span class="tag">创业项目</span></a>
+          <a class="index-row" href="#tracker"><span class="num">05</span><span class="name">秋招辅助 · 本地求职工作台</span><span class="tag">独立开发</span></a>
+        </aside>
+      </div>
+      <div class="cover-foot">
+        <span>5 个项目 · 问题 / 动作 / 结果 / 边界</span>
+        <span>数据分析 · 大模型应用 · 产品运营</span>
+      </div>
+    </section>
+
+    <!-- 02 index -->
+    <section class="slide" id="index" aria-label="五个项目总览">
+      <div class="kicker">SELECTED WORK · 01 — 05</div>
+      <h2 class="title">五个<em>项目</em></h2>
+      <p class="lead" style="margin-top:12px;font-size:12.5px;max-width:980px">问题不同，交付不同。下面每一页沿用同一结构：问题、我做了什么、结果、边界。</p>
+      <div class="cards">
+        <a class="card" href="#taac">
+          <div class="cnum">01</div>
+          <div class="ctag">算法赛 · 团队</div>
+          <h3>TAAC 2026<br><em>点击率预估</em></h3>
+          <p>约 100 万条曝光、120 个特征。比较“更大模型”和“更好序列建模”哪条更值。</p>
+          <div class="cstat"><b>0.7952 → 0.8067</b>验证 AUC</div>
+        </a>
+        <a class="card" href="#afac">
+          <div class="cnum">02</div>
+          <div class="ctag">算法赛 · 团队</div>
+          <h3>AFAC 2026<br><em>金融长文本</em></h3>
+          <p>573 份文件、343 MB，禁止 embedding，只能 Qwen 答题。先解决证据召回。</p>
+          <div class="cstat"><b>70.91</b>合规口径内部峰值</div>
+        </a>
+        <a class="card" href="#bmo">
+          <div class="cnum">03</div>
+          <div class="ctag">黑客松 · 单人</div>
+          <h3>Roots &amp; Shoots<br><em>知识图谱</em></h3>
+          <p>5 天从 0 到可演示：文档抽取实体关系，写入 Neo4j，支持追问与证据高亮。</p>
+          <div class="cstat"><b>438 / 1024</b>节点 / 关系</div>
+        </a>
+        <a class="card" href="#findex">
+          <div class="cnum">04</div>
+          <div class="ctag">创业项目 · 团队</div>
+          <h3>Findex<br><em>企业协同 Agent</em></h3>
+          <p>订单变更后，让仓库、销售、财务看到同一份带出处的事实，再给老板一份简报。</p>
+          <div class="cstat"><b>14 页</b>Pitch Deck · 概念阶段</div>
+        </a>
+        <a class="card" href="#tracker">
+          <div class="cnum">05</div>
+          <div class="ctag">独立开发 · 自用</div>
+          <h3>秋招辅助<br><em>求职工作台</em></h3>
+          <p>投递追踪、简历结构化、JD 匹配。公开岗位来源，数据留在本机。</p>
+          <div class="cstat"><b>163 / 139</b>岗位 / 公司</div>
+        </a>
+      </div>
+      <div class="method-quote" style="margin-top:20px">“五个项目的问题不同，但都先判断问题在哪一层，再决定做什么。”<small>点击卡片或按 → 进入项目详情。</small></div>
+    </section>
+
+    <!-- 03 TAAC -->
+    <section class="slide" id="taac" aria-label="TAAC 2026">
+      <div class="proj-head">
+        <div>
+          <div class="kicker">PROJECT 01 · 腾讯广告算法大赛 · KDD Cup 学术赛道</div>
+          <h2>TAAC 2026：点击率预估与<em>消融实验</em></h2>
+        </div>
+        <div class="proj-meta">
+          <span class="pill mint">团队</span><span class="pill">数据分析</span><span class="pill">特征工程</span><span class="pill">消融实验</span>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-left">
+          <div class="fact-row"><div class="fact-label">问题</div><p>约 100 万条脱敏广告曝光、120 个平铺特征、四个域的行为序列。要判断：继续做大模型，还是改序列建模，哪条路更值。</p></div>
+          <div class="fact-row"><div class="fact-label">我做了什么</div><p>负责<b>数据分析、特征工程、消融实验设计和结论复核</b>。模型主体与训练工程由队友实现；我理解原理和取舍，但不把团队代码写成个人独立完成。</p></div>
+          <div class="fact-row"><div class="fact-label">结果</div><p>验证 AUC 从 <b>0.7952 提升到 0.8067</b>（+0.0115，未调参 InterFormer vs 已优化 HyFormer）。v0.5 峰值 0.8520，但 step 23% 后过拟合，未作为最终提交。</p></div>
+          <div class="fact-row"><div class="fact-label">边界</div><p>这里展示团队结果；公开仓库由团队共同维护。消融结论用于判断“改动是否真的有效”，不是单次最好分数。</p></div>
+          <div class="insight"><b>关键判断：</b>架构选择的影响大于继续调参，所以先做消融实验对齐变量。</div>
+          <div class="proj-links">
+            <a class="btn" href="https://github.com/aKx1ya/TAAC2026" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+            <a class="btn" href="https://youtu.be/-JgE9-YpROI" target="_blank" rel="noopener">7 分钟讲解 ▶</a>
+          </div>
+        </div>
+        <aside class="visual">
+          <div class="visual-head"><span>Validation AUC</span><b>TAAC 2026</b></div>
+          <div class="bars">
+            <div>
+              <div class="bar-top"><span>PCVRHyFormer · baseline</span><strong>0.7952</strong></div>
+              <div class="bar-track"><div class="bar-fill" style="width:19%"></div></div>
+            </div>
+            <div>
+              <div class="bar-top"><span>PCVRInterFormer · untuned</span><strong>0.8067</strong></div>
+              <div class="bar-track"><div class="bar-fill" style="width:33%"></div></div>
+              <div class="bar-note">+0.0115 AUC · d_model 128 → 64</div>
+            </div>
+            <div>
+              <div class="bar-top"><span>InterFormer v0.5 · peak</span><strong>0.8520</strong></div>
+              <div class="bar-track"><div class="bar-fill peak" style="width:90%"></div></div>
+              <div class="bar-note">step 23% 后过拟合，未作为最终提交</div>
+            </div>
+          </div>
+          <div class="delta">
+            <strong>+0.0115</strong>
+            <span>未调参 InterFormer vs 已优化 HyFormer<br>柱状轴范围 0.78 — 0.86</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 04 AFAC -->
+    <section class="slide" id="afac" aria-label="AFAC 2026">
+      <div class="proj-head">
+        <div>
+          <div class="kicker">PROJECT 02 · AFAC 2026 · 挑战组赛题四</div>
+          <h2>AFAC 2026：Qwen-only 长文本<em>问答</em></h2>
+        </div>
+        <div class="proj-meta">
+          <span class="pill mint">团队</span><span class="pill">检索与评测</span><span class="pill">失败分析</span><span class="pill">结论复核</span>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-left">
+          <div class="fact-row"><div class="fact-label">问题</div><p>190 份 PDF、377 份 HTML、6 份 TXT，约 343 MB 的保险条款、监管文件、合同和研报。赛题禁止 embedding，正式答题只能用 Qwen。先要确认：问题是不是“证据根本没进上下文”。</p></div>
+          <div class="fact-row"><div class="fact-label">我做了什么</div><p>用 BM25 和规则字段做召回，再用 Self-RAG / CRAG 式自检压缩上下文，让模型逐选项判断<b>支持 / 反驳 / 证据不足</b>。我负责检索与评测流程、失败案例分析和结论复核。</p></div>
+          <div class="fact-row"><div class="fact-label">结果</div><p>Qwen-only 合规设置下，内部验证峰值 <b>70.91</b>。76.45 来自非最终、非合规验证设置，只用于验证方案方向，不作为成绩展示。</p></div>
+          <div class="fact-row"><div class="fact-label">边界</div><p>70.91 不是官方排名。公开仓库由队友维护，是共享工作区；我展示的是自己负责的流程与结论。</p></div>
+          <div class="insight"><b>关键判断：</b>问题出在证据没有进上下文，不是模型不够强；先做召回和自检，再谈答题。</div>
+          <div class="proj-links">
+            <a class="btn" href="https://github.com/xuxucodepractice-code/tianchi-fin-agent-track4" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+            <a class="btn" href="index.html#afac">完整说明 ↗</a>
+          </div>
+        </div>
+        <aside class="visual">
+          <div class="visual-head"><span>Hard Constraints</span><b>AFAC · Track 4</b></div>
+          <div class="constraint-grid">
+            <div class="constraint"><b>Qwen-only</b><span>正式答题只用 Qwen 系列</span></div>
+            <div class="constraint"><b>No embedding</b><span>禁止 embedding 检索 / rerank</span></div>
+            <div class="constraint"><b>Token budget</b><span>按赛题预算压缩上下文</span></div>
+            <div class="constraint"><b>343 MB</b><span>190 PDF · 377 HTML · 6 TXT</span></div>
+          </div>
+          <div class="idea-chain"><b>做法</b><span>定位证据</span><i>→</i><span>在证据范围内判断</span><i>→</i><span>逐选项给出结论</span></div>
+          <div class="score">
+            <strong>70.91</strong>
+            <span>合规 Qwen-only 内部验证峰值<br>非官方排名</span>
+          </div>
+          <p class="score-note">做法是先定位证据，再让模型在证据范围内做判断。</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 05 BMO -->
+    <section class="slide" id="bmo" aria-label="BMO 黑客松">
+      <div class="proj-head">
+        <div>
+          <div class="kicker">PROJECT 03 · 百度 BMO 黑客松 2026</div>
+          <h2>Roots &amp; Shoots：文档<em>知识图谱</em>与问答</h2>
+        </div>
+        <div class="proj-meta">
+          <span class="pill mint">单人 + AI 协作</span><span class="pill">5 天</span><span class="pill lime">全国三等奖</span>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-left">
+          <div class="fact-row"><div class="fact-label">问题</div><p>文档里的实体和关系散落在正文，聊天式问答很难追溯证据。要在 5 天内做一个能演示、能追问、回答时能看到依据的知识图谱。</p></div>
+          <div class="fact-row"><div class="fact-label">我做了什么</div><p><b>单人完成</b>产品定义、前后端联调、Neo4j 与 DeepSeek 接入。上传文档后抽取实体和关系，写进图数据库；证据不足时明确回答“找不到”。</p></div>
+          <div class="fact-row"><div class="fact-label">结果</div><p>5 天从 0 到可演示，获得<b>全国三等奖</b>。演示图谱包含 438 个节点、1024 条关系。</p></div>
+          <div class="fact-row"><div class="fact-label">边界</div><p>项目基于开源 <b>neo4j-labs/llm-graph-builder</b> 改造，不是从零写图数据库；截图来自测试文档，不代表生产规模。</p></div>
+          <div class="insight"><b>关键判断：</b>5 天交付的关键是确定不做什么，只保留能演示的完整链路。</div>
+          <div class="proj-links">
+            <a class="btn" href="https://github.com/yeung0327/BMOhackathon-20260616" target="_blank" rel="noopener">GitHub 仓库 ↗</a>
+          </div>
+        </div>
+        <aside class="visual">
+          <div class="visual-head"><span>Product Shot</span><b>Roots &amp; Shoots</b></div>
+          <div class="shot-wrap"><img src="assets/bmo/bmo-01.jpg" alt="知识图谱生成界面，展示 438 个节点和 1024 条关系"></div>
+          <div class="metric-row">
+            <div class="metric"><strong>438</strong><span>演示图谱节点</span></div>
+            <div class="metric"><strong>1024</strong><span>演示关系</span></div>
+            <div class="metric"><strong>5 天</strong><span>从 0 到可演示</span></div>
+          </div>
+          <div class="shot-cap">截图来自测试文档，成员姓名已模糊处理。</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 06 Findex -->
+    <section class="slide" id="findex" aria-label="Findex">
+      <div class="proj-head">
+        <div>
+          <div class="kicker">PROJECT 04 · PolyU Micro Fund 2026–27 · Cohort 1</div>
+          <h2>Findex：企业协同 Agent，<em>概念验证</em></h2>
+        </div>
+        <div class="proj-meta">
+          <span class="pill mint">团队</span><span class="pill">试点与企业需求</span><span class="pill">概念阶段</span>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-left">
+          <div class="fact-row"><div class="fact-label">问题</div><p>一张订单的收货短了 30%：仓库知道，销售还在按旧交期承诺，财务无法判断付款。每个角色各拿一份信息，最后靠人传人。</p></div>
+          <div class="fact-row"><div class="fact-label">我做了什么</div><p>负责<b>试点与企业需求</b>。把带出处的事实、各岗位判断和老板简报分成 5 层；设计 3 个六个月内验证的 gate，明确系统不自动发消息、不自动付款。</p></div>
+          <div class="fact-row"><div class="fact-label">结果</div><p>完成 <b>14 页 Pitch Deck</b>，把“谁付费、谁拍板、什么时候验证”讲清楚。目前处于概念与 pitch deck 阶段。</p></div>
+          <div class="fact-row"><div class="fact-label">边界</div><p>这是团队创业项目，<b>我不是创始人</b>；我负责试点与企业需求。没有可在线使用的产品，下面展示的是 deck，不是已上线系统。</p></div>
+          <div class="insight"><b>关键判断：</b>先定谁拍板、谁付费，再定 Agent 替哪些环节省事。</div>
+          <div class="proj-links">
+            <a class="btn" href="index.html#findex">Findex 页面 ↗</a>
+            <a class="btn" href="assets/findex/Findex_Pitch_Deck.pdf" target="_blank" rel="noopener">下载 PDF ↓</a>
+          </div>
+        </div>
+        <aside class="visual">
+          <div class="visual-head"><span>Pitch Deck</span><b>Findex · 14 pages</b></div>
+          <div class="shot-wrap deck"><img src="assets/findex/page-01.jpg" alt="Findex Pitch Deck 封面"></div>
+          <div class="metric-row">
+            <div class="metric"><strong>5 层</strong><span>事实 / 判断 / 简报</span></div>
+            <div class="metric"><strong>3 个</strong><span>六个月验证 gate</span></div>
+            <div class="metric"><strong>14 页</strong><span>Pitch Deck</span></div>
+          </div>
+          <div class="shot-cap">团队项目 · 我负责试点与企业需求，不是创始人。</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 07 tracker -->
+    <section class="slide" id="tracker" aria-label="秋招辅助">
+      <div class="proj-head">
+        <div>
+          <div class="kicker">PROJECT 05 · 独立开发 · React + FastAPI + SQLite</div>
+          <h2>秋招辅助：本地<em>求职工作台</em></h2>
+        </div>
+        <div class="proj-meta">
+          <span class="pill mint">独立开发</span><span class="pill">自用产品</span><span class="pill">本地优先</span>
+        </div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-left">
+          <div class="fact-row"><div class="fact-label">问题</div><p>投递记录散在表格和聊天里，JD 匹配靠“感觉合适”。需要一个能每天用、数据不出本机、不依赖商业招聘平台的工具。</p></div>
+          <div class="fact-row"><div class="fact-label">我做了什么</div><p><b>独立完成产品、前端、后端和数据模型</b>。岗位只从公开的社区维护 Markdown 汇总同步；DeepSeek 只负责解析和匹配，不把整份简历发到公网。</p></div>
+          <div class="fact-row"><div class="fact-label">结果</div><p>收录 <b>163 个岗位、139 家公司</b>，支持 8 种投递状态、简历结构化、JD 逐项匹配和新岗位观察池。真实版本在本机运行。</p></div>
+          <div class="fact-row"><div class="fact-label">边界</div><p>线上 Demo 只用虚构示例数据，<b>不连接 SQLite、不调用 API、不需要 key</b>；真实代码暂未公开。</p></div>
+          <div class="insight"><b>关键判断：</b>先保证数据留在本机、岗位来源公开，再谈匹配分数。</div>
+          <div class="proj-links">
+            <a class="btn primary" href="tracker-demo.html">打开示例 Demo →</a>
+          </div>
+        </div>
+        <aside class="visual">
+          <div class="visual-head"><span>Workbench</span><b>Job Search Tracker</b></div>
+          <div class="mini">
+            <div class="mini-top"><span><i></i>投递追踪 · 本周</span><span>DEMO</span></div>
+            <div class="mini-stats">
+              <div class="mini-stat"><strong>163</strong><span>岗位</span></div>
+              <div class="mini-stat"><strong>22</strong><span>已核实</span></div>
+              <div class="mini-stat"><strong>8</strong><span>状态</span></div>
+            </div>
+            <div class="mini-row"><div><b>星海科技 · 大模型产品运营</b><br><span>深圳 · 匹配 92</span></div><span class="mini-status">面试中</span></div>
+            <div class="mini-row"><div><b>云舟智能 · AI 产品经理</b><br><span>北京 · 匹配 88</span></div><span class="mini-status">意向</span></div>
+            <div class="mini-row"><div><b>原点数据 · 数据分析</b><br><span>上海 · 匹配 81</span></div><span class="mini-status">笔试</span></div>
+            <div class="mini-row"><div><b>远山网络 · 产品运营</b><br><span>杭州 · 匹配 78</span></div><span class="mini-status">已投递</span></div>
+          </div>
+          <div class="metric-row">
+            <div class="metric"><strong>163</strong><span>岗位记录</span></div>
+            <div class="metric"><strong>139</strong><span>覆盖公司</span></div>
+            <div class="metric"><strong>8</strong><span>种投递状态</span></div>
+          </div>
+          <div class="shot-cap">Demo 使用虚构数据；真实版本 4 张表、本地 SQLite。</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 08 method -->
+    <section class="slide" id="method" aria-label="工作方法">
+      <div class="kicker">METHOD · 反复用到的三个动作</div>
+      <h2 class="title">问题不同，<em>方法一致</em></h2>
+      <p class="lead" style="margin-top:12px;font-size:12.5px;max-width:980px">五个项目分别属于算法、产品、开发，但推进方式可以落到三个动作上。</p>
+      <div class="method-grid">
+        <div class="method">
+          <div class="mnum">01 · 判断问题在哪一层</div>
+          <h3>先定位，<br><em>再动手</em></h3>
+          <p>硬件专项先判断芯片和系统能不能端侧跑；AFAC 先确认证据有没有进上下文；TAAC 先看哪个特征真的有效。问题层判断错，后面做得越多越偏。</p>
+          <div class="mexample"><b>例子</b>AFAC 先确认 573 份文件里的证据能不能被召回，而不是先换更大的模型。</div>
+          <div class="mfoot">对应：硬件专项 / AFAC / TAAC</div>
+        </div>
+        <div class="method">
+          <div class="mnum">02 · 用对照实验验证</div>
+          <h3>记录改动，<br><em>也记录失败</em></h3>
+          <p>每加一个模块或改一次流程，先记下改了什么、指标怎么变、为什么失败。只留下成功结果，下一次还会踩同一个坑。</p>
+          <div class="mexample"><b>例子</b>TAAC 做过 InterFormer vs HyFormer 对照；v0.5 峰值 0.8520，但过拟合后不提交。</div>
+          <div class="mfoot">对应：TAAC 消融 / AFAC 失败分析</div>
+        </div>
+        <div class="method">
+          <div class="mnum">03 · 交付可交接的东西</div>
+          <h3>写成别人<br><em>能接着做</em></h3>
+          <p>开源生态把建联、集成、发布、监测固定成七步流程；秋招辅助把字段和状态定清楚。交付物不是“我讲一遍”，而是文档、流程和口径。</p>
+          <div class="mexample"><b>例子</b>开源生态把七步链路写成文档；秋招辅助把 8 种投递状态定义清楚。</div>
+          <div class="mfoot">对应：开源生态 / 秋招辅助</div>
+        </div>
+      </div>
+      <div class="method-quote">“先判断问题在哪一层，再决定做什么；做完记录结果和边界，让下一个人能接着做。”<small>五个项目共用这一套流程。</small></div>
+    </section>
+
+    <!-- 09 contact -->
+    <section class="slide contact" id="contact" aria-label="联系方式">
+      <div class="kicker">CONTACT</div>
+      <div class="contact-grid">
+        <div>
+          <h1 class="display">项目<em>作品集</em></h1>
+          <p class="lead">2027 校招方向：大模型产品运营 / 产品运营 / 数据分析 / 解决方案。简历和其他材料可以另外发；这个页面只展示可公开的作品与边界。</p>
+          <div class="cover-actions">
+            <a class="btn primary" href="index.html">打开完整作品集 ↗</a>
+            <a class="btn" href="tracker-demo.html">秋招辅助 Demo ↗</a>
+          </div>
+        </div>
+        <div>
+          <div class="contact-links">
+            <a class="contact-link" href="https://github.com/yeung0327" target="_blank" rel="noopener">
+              <div><b>GitHub</b><span>@yeung0327 · 代码与项目仓库</span></div><i>↗</i>
+            </a>
+            <a class="contact-link" href="https://yeung0327.github.io/portfolio/" target="_blank" rel="noopener">
+              <div><b>完整作品集</b><span>五个项目的详细说明与截图</span></div><i>↗</i>
+            </a>
+            <a class="contact-link" href="https://yeung0327.github.io/portfolio/tracker-demo.html" target="_blank" rel="noopener">
+              <div><b>秋招辅助 Demo</b><span>虚构数据的交互示例</span></div><i>↗</i>
+            </a>
+            <a class="contact-link" href="https://yeung0327.github.io/portfolio/#findex" target="_blank" rel="noopener">
+              <div><b>Findex Pitch Deck</b><span>14 页；在作品集页面内可在线翻页</span></div><i>↗</i>
+            </a>
+          </div>
+          <div class="contact-note">所有团队项目都标注了实际分工；比赛成绩区分官方结果与内部验证口径；不可公开的数据、API key 和真实投递记录都没有放进来。</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot">
+      <div class="foot-left">
+        <span>杨千钎 · 项目作品集</span>
+        <span class="foot-hint">← → 翻页 · F 全屏</span>
+      </div>
+      <div class="nav">
+        <button type="button" id="prevBtn" aria-label="上一页">←</button>
+        <span class="counter" id="counter">01 / 09</span>
+        <button type="button" id="nextBtn" aria-label="下一页">→</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const progress = document.getElementById('progress');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const fsBtn = document.getElementById('fsBtn');
+  let current = 0;
+  let locked = false;
+
+  const ids = slides.map(s => s.id);
+
+  function fit() {
+    const s = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    const x = (window.innerWidth - 1600 * s) / 2;
+    const y = (window.innerHeight - 900 * s) / 2;
+    stage.style.transform = `translate(${x}px, ${y}px) scale(${s})`;
+  }
+
+  function go(index, updateHash = true) {
+    index = Math.max(0, Math.min(slides.length - 1, index));
+    if (index === current && slides[current].classList.contains('active')) return;
+    slides[current].classList.remove('active');
+    current = index;
+    slides[current].classList.add('active');
+    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+    counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+    if (updateHash) {
+      const id = ids[current];
+      history.replaceState(null, '', id === 'cover' ? location.pathname + location.search : '#' + id);
+    }
+  }
+
+  function next() { if (!locked) go(current + 1); }
+  function prev() { if (!locked) go(current - 1); }
+
+  function fromHash() {
+    const id = location.hash.replace('#', '');
+    const index = ids.indexOf(id);
+    if (index >= 0) go(index, false);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const el = e.target instanceof Element ? e.target : null;
+    if (el && el.closest('input,textarea,select')) return;
+    if (el && el.closest('a,button') && (e.key === ' ' || e.key === 'Enter')) return;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(e.key)) {
+      e.preventDefault(); next();
+    } else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(e.key)) {
+      e.preventDefault(); prev();
+    } else if (e.key === 'Home') {
+      e.preventDefault(); go(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); go(slides.length - 1);
+    } else if (e.key.toLowerCase() === 'f') {
+      e.preventDefault(); toggleFullscreen();
+    }
+  });
+
+  // 点击空白处翻页；链接和按钮保持原行为
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('a,button')) return;
+    const rect = stage.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    if (x < 0.22) prev(); else next();
+  });
+
+  prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prev(); });
+  nextBtn.addEventListener('click', (e) => { e.stopPropagation(); next(); });
+
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+    } else {
+      document.exitFullscreen?.();
+    }
+  }
+  fsBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleFullscreen(); });
+
+  // 触摸滑动
+  let touchX = null;
+  stage.addEventListener('touchstart', (e) => { touchX = e.touches[0]?.clientX ?? null; }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = (e.changedTouches[0]?.clientX ?? touchX) - touchX;
+    if (Math.abs(dx) > 45) { dx < 0 ? next() : prev(); }
+    touchX = null;
+  }, { passive: true });
+
+  window.addEventListener('hashchange', fromHash);
+  window.addEventListener('resize', fit);
+
+  // 防止快速连按跳页
+  window.addEventListener('wheel', (e) => {
+    if (locked) return;
+    if (Math.abs(e.deltaY) < 24) return;
+    locked = true;
+    e.deltaY > 0 ? next() : prev();
+    setTimeout(() => { locked = false; }, 550);
+  }, { passive: true });
+
+  fit();
+  fromHash();
+  progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+  counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+})();
+</script>
+</body>
+</html>

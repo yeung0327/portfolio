@@ -9,6 +9,7 @@
 | 百度 BMO 黑客松 | 案例 + 3 张产品截图 + GitHub | `index.html#bmo` |
 | Findex | 14 页 Pitch Deck 在线翻页 + PDF | `index.html#findex` |
 | 秋招辅助 | 虚构示例数据的交互 Demo | `tracker-demo.html` |
+| 演示版 | 16:9 翻页演示，支持键盘方向键 | `deck.html` |
 
 ---
 
@@ -24,6 +25,7 @@ python3 -m http.server 8000
 然后打开：
 
 - 作品集：http://localhost:8000/
+- 演示版：http://localhost:8000/deck.html
 - 秋招辅助 Demo：http://localhost:8000/tracker-demo.html
 
 ---
@@ -77,6 +79,7 @@ GitHub 仓库 → **Settings** → **Pages** → **Build and deployment**
 ```text
 项目展示/
 ├── index.html                 # 作品集主页
+├── deck.html                  # 16:9 翻页演示版
 ├── tracker-demo.html          # 秋招辅助静态 Demo（虚构数据）
 ├── README.md
 ├── .nojekyll                  # 让 GitHub Pages 跳过 Jekyll 处理
