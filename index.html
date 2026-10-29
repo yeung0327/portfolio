@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>杨千钎 · 项目作品集</title>
+<meta name="description" content="杨千钎的项目作品集：TAAC 2026、AFAC 2026、百度 BMO 黑客松、Findex、秋招辅助。">
+<style>
+  :root{
+    --ink:#080b10;
+    --ink-2:#0c1119;
+    --paper:#f1efe6;
+    --muted:#9aa6a3;
+    --dim:#66736f;
+    --line:rgba(241,239,230,.13);
+    --line-2:rgba(241,239,230,.07);
+    --lime:#d8ff72;
+    --mint:#5ee0c2;
+    --orange:#ff8a5c;
+    --blue:#8fb1ff;
+    --serif:"Songti SC","STSong","Noto Serif SC","Times New Roman",serif;
+    --sans:"Avenir Next","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    --mono:"SF Mono","Menlo","Consolas",monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 88% -12%,rgba(94,224,194,.1),transparent 62%),
+      radial-gradient(700px 500px at -8% 28%,rgba(143,177,255,.08),transparent 62%),
+      linear-gradient(rgba(241,239,230,.022) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(241,239,230,.022) 1px,transparent 1px);
+    background-size:auto,auto,72px 72px,72px 72px;
+  }
+  a{color:inherit}
+  img{display:block;max-width:100%}
+  button{font:inherit;color:inherit;cursor:pointer}
+  ::selection{background:var(--lime);color:#0a0d09}
+
+  .site-header{
+    position:fixed;top:0;left:0;right:0;z-index:40;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:16px 34px;border-bottom:1px solid transparent;
+    background:linear-gradient(180deg,rgba(8,11,16,.86),rgba(8,11,16,0));
+    backdrop-filter:blur(10px);
+  }
+  .brand{display:flex;align-items:baseline;gap:10px;text-decoration:none;letter-spacing:-.02em}
+  .brand b{font-family:var(--serif);font-size:18px;font-weight:600}
+  .brand span{font:9px/1 var(--mono);letter-spacing:.18em;color:var(--dim)}
+  .site-nav{display:flex;align-items:center;gap:22px}
+  .site-nav a{text-decoration:none;font-size:11px;color:var(--muted);letter-spacing:.05em;transition:.2s}
+  .site-nav a:hover{color:var(--lime)}
+  .status{
+    display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(216,255,114,.25);
+    background:rgba(216,255,114,.06);color:var(--lime);border-radius:999px;
+    padding:7px 11px;font-size:10px;letter-spacing:.04em;white-space:nowrap;
+  }
+  .status i{width:5px;height:5px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(216,255,114,.1)}
+
+  main{overflow:hidden}
+  .hero{
+    min-height:100svh;max-width:1500px;margin:0 auto;padding:136px 34px 34px;
+    display:flex;flex-direction:column;justify-content:space-between;
+  }
+  .hero-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,.65fr);gap:56px;align-items:end}
+  .eyebrow{
+    display:flex;align-items:center;gap:12px;margin-bottom:24px;
+    font:10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--mint);
+  }
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--mint)}
+  .hero h1{
+    font-family:var(--serif);font-size:clamp(50px,7.1vw,112px);line-height:.98;
+    letter-spacing:-.055em;font-weight:500;margin:0 0 28px;max-width:920px;
+  }
+  .hero h1 em{font-style:italic;color:var(--lime)}
+  .hero-copy{max-width:600px;font-size:14px;line-height:1.95;color:#c3ccc7;margin:0}
+  .hero-copy b{color:var(--paper);font-weight:600}
+  .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;border-radius:999px;
+    padding:11px 16px;font-size:11px;letter-spacing:.03em;border:1px solid var(--line);
+    background:rgba(255,255,255,.035);color:var(--paper);transition:.2s;
+  }
+  .btn:hover{border-color:rgba(216,255,114,.55);color:var(--lime);transform:translateY(-1px)}
+  .btn.primary{background:var(--lime);border-color:var(--lime);color:#0a0d09;font-weight:600}
+  .btn.primary:hover{background:#e5ff9d;color:#0a0d09}
+  .hero-index{border-top:1px solid var(--line)}
+  .index-row{
+    display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:12px;align-items:center;
+    text-decoration:none;padding:14px 0;border-bottom:1px solid var(--line-2);transition:.2s;
+  }
+  .index-row:hover{padding-left:7px;color:var(--lime)}
+  .index-row .num{font:9px/1 var(--mono);color:var(--dim)}
+  .index-row .name{font-size:12px;line-height:1.4}
+  .index-row .tag{font-size:9px;color:var(--dim);white-space:nowrap}
+  .hero-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    border-top:1px solid var(--line);margin-top:58px;padding-top:16px;
+    font:9px/1.5 var(--mono);letter-spacing:.08em;color:var(--dim);text-transform:uppercase;
+  }
+  .hero-foot span:last-child{color:var(--muted)}
+
+  .section{max-width:1500px;margin:0 auto;padding:118px 34px}
+  .section-head{
+    display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,420px);gap:30px;align-items:end;
+    border-top:1px solid var(--line);padding-top:18px;margin-bottom:44px;
+  }
+  .section-head h2{
+    font-family:var(--serif);font-size:clamp(36px,4.4vw,68px);line-height:1.02;
+    letter-spacing:-.045em;font-weight:500;margin:0;
+  }
+  .section-head h2 em{font-style:italic;color:var(--lime)}
+  .section-head p{margin:0;font-size:12px;line-height:1.8;color:var(--muted)}
+  .section-kicker{font:9px/1 var(--mono);letter-spacing:.18em;color:var(--mint);text-transform:uppercase;margin-bottom:14px}
+
+  .project{
+    display:grid;grid-template-columns:56px minmax(0,1.05fr) minmax(320px,.85fr);
+    gap:36px;padding:58px 0;border-top:1px solid var(--line);position:relative;
+  }
+  .project:last-of-type{border-bottom:1px solid var(--line)}
+  .project-num{font:10px/1 var(--mono);color:var(--lime);padding-top:7px}
+  .project-meta{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:17px;
+    font:9px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--dim);
+  }
+  .project-meta .pill{border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:var(--muted);letter-spacing:.04em}
+  .project h3{
+    font-family:var(--serif);font-size:clamp(32px,3.7vw,58px);line-height:1.05;
+    letter-spacing:-.045em;font-weight:500;margin:0 0 18px;
+  }
+  .project h3 em{font-style:italic;color:var(--lime)}
+  .project .lede{font-size:13px;line-height:1.9;color:#c6cec9;margin:0;max-width:620px}
+  .role-line{
+    display:flex;gap:10px;align-items:flex-start;margin-top:17px;padding-top:14px;border-top:1px solid var(--line-2);
+    font-size:11px;line-height:1.7;color:var(--muted);
+  }
+  .role-line b{color:var(--paper);font-weight:600;white-space:nowrap}
+  .fact-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0 20px}
+  .fact{border-top:1px solid var(--line);padding-top:9px;min-width:0}
+  .fact strong{display:block;font:600 17px/1.05 var(--mono);color:var(--paper);letter-spacing:-.03em}
+  .fact span{display:block;margin-top:6px;font-size:9px;line-height:1.5;color:var(--dim)}
+  .honest{
+    font-size:10px;line-height:1.75;color:var(--muted);border-left:1px solid rgba(255,138,92,.5);
+    padding-left:11px;margin:0 0 20px;max-width:610px;
+  }
+  .honest b{color:var(--orange);font-weight:600}
+  .links{display:flex;flex-wrap:wrap;gap:8px}
+  .link-btn{
+    display:inline-flex;align-items:center;gap:7px;text-decoration:none;border-radius:999px;
+    border:1px solid var(--line);background:rgba(255,255,255,.03);padding:9px 13px;
+    font-size:10px;color:var(--paper);transition:.2s;
+  }
+  .link-btn:hover{border-color:rgba(216,255,114,.55);color:var(--lime);transform:translateY(-1px)}
+  .link-btn.primary{background:var(--lime);border-color:var(--lime);color:#0a0d09;font-weight:600}
+  .link-btn.primary:hover{background:#e5ff9d;color:#0a0d09}
+  .link-btn span{font-size:12px;line-height:1}
+
+  .visual{
+    align-self:start;border:1px solid var(--line);border-radius:18px;overflow:hidden;
+    background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.015));
+    min-width:0;
+  }
+  .visual-head{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:13px 16px;border-bottom:1px solid var(--line);
+    font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);
+  }
+  .visual-head b{color:var(--muted);font-weight:400}
+  .visual-body{padding:18px}
+
+  .auc-card .auc-row{margin-bottom:17px}
+  .auc-top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:7px}
+  .auc-top span{font-size:10px;color:var(--muted)}
+  .auc-top strong{font:600 13px/1 var(--mono);color:var(--paper)}
+  .auc-track{height:7px;background:rgba(255,255,255,.07);border-radius:999px;overflow:hidden}
+  .auc-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--mint))}
+  .auc-fill.lime{background:linear-gradient(90deg,var(--mint),var(--lime))}
+  .auc-note{font-size:9px;line-height:1.6;color:var(--dim);margin:2px 0 0}
+  .delta{
+    display:flex;align-items:baseline;gap:8px;margin:16px 0 4px;padding-top:14px;border-top:1px solid var(--line);
+  }
+  .delta strong{font:600 31px/1 var(--sans);letter-spacing:-.05em;color:var(--lime)}
+  .delta span{font-size:9px;color:var(--dim)}
+
+  .constraint-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .constraint{
+    border:1px solid var(--line);border-radius:10px;padding:10px 11px;
+    font-size:9px;line-height:1.55;color:var(--muted);background:rgba(255,255,255,.022);
+  }
+  .constraint b{display:block;font-size:10px;color:var(--paper);margin-bottom:4px}
+  .score-line{display:flex;align-items:flex-end;gap:10px;margin:16px 0 6px;padding-top:14px;border-top:1px solid var(--line)}
+  .score-line strong{font:600 38px/1 var(--sans);letter-spacing:-.06em;color:var(--lime)}
+  .score-line span{font-size:9px;line-height:1.5;color:var(--dim);padding-bottom:4px}
+  .score-note{font-size:9px;line-height:1.65;color:var(--dim);margin:0}
+
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .shot{
+    display:block;border:0;padding:0;background:#060a0f;border-radius:10px;overflow:hidden;
+    position:relative;text-align:left;
+  }
+  .shot:first-child{grid-column:span 2}
+  .shot img{width:100%;height:auto;transition:.35s;opacity:.9}
+  .shot:hover img{transform:scale(1.02);opacity:1}
+  .shot::after{
+    content:"↗";position:absolute;right:8px;bottom:8px;width:21px;height:21px;border-radius:50%;
+    display:grid;place-items:center;background:rgba(8,11,16,.8);color:var(--lime);font-size:10px;
+  }
+  .caption{font-size:9px;line-height:1.65;color:var(--dim);margin:10px 0 0}
+
+  .deck-wrap{position:relative}
+  .deck-stage{position:relative;aspect-ratio:16/9;margin:4px 0 26px}
+  .deck-stage img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:10px;
+    border:1px solid rgba(255,255,255,.12);box-shadow:0 18px 44px rgba(0,0,0,.4);
+  }
+  .deck-stage .back{transform:rotate(-4deg) translate(-8px,7px);opacity:.45}
+  .deck-stage .mid{transform:rotate(-1.5deg) translate(-3px,3px);opacity:.72}
+  .deck-front{position:absolute;inset:0;border:0;padding:0;background:transparent;border-radius:10px;overflow:hidden;text-align:left}
+  .deck-front img{position:static;box-shadow:none;transition:.35s}
+  .deck-front:hover img{transform:scale(1.018)}
+  .deck-front::after{
+    content:"在线翻页 ↗";position:absolute;left:12px;bottom:12px;
+    background:var(--lime);color:#0a0d09;border-radius:999px;padding:6px 9px;
+    font:600 9px/1 var(--sans);letter-spacing:.03em;
+  }
+  .deck-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;font:9px/1.5 var(--mono);color:var(--muted)}
+
+  .mini-app{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0a1019}
+  .mini-top{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-bottom:1px solid var(--line);font-size:9px;color:var(--muted)}
+  .mini-top i{width:5px;height:5px;border-radius:50%;background:var(--mint);display:inline-block;margin-right:5px}
+  .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+  .mini-stat{background:#0c1420;padding:10px}
+  .mini-stat strong{display:block;font:600 17px/1 var(--sans);color:var(--mint);letter-spacing:-.04em}
+  .mini-stat span{display:block;margin-top:5px;font-size:8px;color:var(--dim)}
+  .mini-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 11px;border-top:1px solid var(--line-2);font-size:9px}
+  .mini-row b{font-weight:500;color:var(--paper)}
+  .mini-row span{font:8px/1 var(--mono);color:var(--dim)}
+  .mini-status{font-size:8px;border:1px solid rgba(94,224,194,.28);background:rgba(94,224,194,.06);color:var(--mint);border-radius:999px;padding:3px 5px}
+  .mini-status.amber{border-color:rgba(255,195,122,.25);background:rgba(255,195,122,.06);color:#ffc37a}
+  .mini-status.rose{border-color:rgba(255,140,157,.25);background:rgba(255,140,157,.06);color:#ff8c9d}
+
+  .about{max-width:1500px;margin:0 auto;padding:118px 34px 70px}
+  .about-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:60px;align-items:start}
+  .about-statement{
+    font-family:var(--serif);font-size:clamp(26px,3.2vw,48px);line-height:1.22;letter-spacing:-.04em;
+    margin:0 0 26px;font-weight:500;
+  }
+  .about-statement em{font-style:italic;color:var(--lime)}
+  .about-copy{font-size:12px;line-height:1.95;color:var(--muted);max-width:520px;margin:0 0 16px}
+  .about-copy b{color:var(--paper);font-weight:600}
+  .timeline{border-top:1px solid var(--line)}
+  .tl-row{
+    display:grid;grid-template-columns:90px 1fr;gap:20px;padding:15px 0;
+    border-bottom:1px solid var(--line-2);font-size:11px;line-height:1.65;
+  }
+  .tl-row time{font:9px/1.6 var(--mono);color:var(--dim)}
+  .tl-row b{display:block;color:var(--paper);font-weight:600;margin-bottom:2px}
+  .tl-row span{color:var(--muted)}
+  .skill-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
+  .skill{border-top:1px solid var(--line);padding-top:10px}
+  .skill b{display:block;font-size:10px;color:var(--paper);margin-bottom:7px;font-weight:600}
+  .skill span{font-size:9px;line-height:1.7;color:var(--dim)}
+  .note{
+    margin-top:26px;border:1px dashed rgba(241,239,230,.16);border-radius:12px;padding:12px 14px;
+    font-size:9px;line-height:1.75;color:var(--dim);
+  }
+  .note b{color:var(--muted)}
+
+  .contact{max-width:1500px;margin:0 auto;padding:40px 34px 28px;border-top:1px solid var(--line)}
+  .contact-inner{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap}
+  .contact h2{
+    font-family:var(--serif);font-size:clamp(34px,4.2vw,64px);line-height:1.02;letter-spacing:-.045em;
+    margin:0;font-weight:500;max-width:720px;
+  }
+  .contact h2 em{font-style:italic;color:var(--lime)}
+  .contact p{font-size:10px;line-height:1.75;color:var(--dim);margin:10px 0 0;max-width:620px}
+  .contact-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .footer{
+    max-width:1500px;margin:0 auto;padding:38px 34px 26px;display:flex;align-items:center;
+    justify-content:space-between;gap:18px;flex-wrap:wrap;font:9px/1.6 var(--mono);color:var(--dim);
+  }
+
+  section[id],article[id]{scroll-margin-top:78px}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  .lightbox{
+    position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    padding:28px;background:rgba(4,7,11,.95);backdrop-filter:blur(18px);
+  }
+  .lightbox.open{display:flex}
+  .lb-stage{max-width:min(1240px,92vw);max-height:88vh;display:flex;flex-direction:column;align-items:center;gap:12px}
+  .lb-stage img{
+    max-width:100%;max-height:78vh;object-fit:contain;border:1px solid rgba(255,255,255,.16);
+    border-radius:8px;box-shadow:0 30px 80px rgba(0,0,0,.55);background:#070b10;
+  }
+  .lb-caption{font-size:10px;line-height:1.6;color:var(--muted);text-align:center;max-width:900px}
+  .lb-close,.lb-btn{
+    position:absolute;z-index:2;display:grid;place-items:center;border:1px solid var(--line);
+    background:rgba(12,17,25,.82);color:var(--paper);border-radius:50%;transition:.2s;
+  }
+  .lb-close{top:22px;right:24px;width:36px;height:36px;font-size:18px}
+  .lb-btn{top:50%;width:42px;height:42px;transform:translateY(-50%);font-size:18px}
+  .lb-prev{left:24px}.lb-next{right:24px}
+  .lb-close:hover,.lb-btn:hover{background:var(--lime);border-color:var(--lime);color:#0a0d09}
+  .lb-count{
+    position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    font:9px/1 var(--mono);letter-spacing:.14em;color:var(--dim);
+  }
+  body.lb-open{overflow:hidden}
+
+  @media (max-width:1100px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .hero-index{max-width:640px}
+    .project{grid-template-columns:40px minmax(0,1fr);gap:24px}
+    .project .visual{grid-column:2;max-width:680px}
+    .about-grid{grid-template-columns:1fr;gap:40px}
+  }
+  @media (max-width:760px){
+    .site-header{padding:13px 18px}
+    .site-nav{display:none}
+    .status{font-size:9px;padding:6px 8px}
+    .hero{padding:112px 18px 24px;min-height:auto}
+    .hero h1{font-size:clamp(38px,10.8vw,54px)}
+    .hero-copy{font-size:13px}
+    .hero-foot{margin-top:38px}
+    .section,.about{padding:78px 18px}
+    .section-head{grid-template-columns:1fr;gap:16px;margin-bottom:30px}
+    .project{grid-template-columns:1fr;gap:18px;padding:40px 0}
+    .project-num{padding-top:0}
+    .project .visual{grid-column:auto;max-width:none}
+    .fact-list{grid-template-columns:repeat(3,1fr)}
+    .fact strong{font-size:14px}
+    .about{padding-bottom:50px}
+    .contact{padding:30px 18px 20px}
+    .footer{padding:28px 18px 22px}
+    .lb-prev{left:10px}.lb-next{right:10px}.lb-close{top:10px;right:12px}
+    .lb-stage{max-width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1!important;transform:none!important;transition:none!important}
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="#top"><b>杨千钎</b><span>PORTFOLIO 2026</span></a>
+  <nav class="site-nav" aria-label="页面导航">
+    <a href="#work">作品</a>
+    <a href="#about">关于</a>
+    <a href="#contact">联系</a>
+  </nav>
+  <div class="status"><i></i>2027 校招 · 求职中</div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Business Analysis × AI Product</div>
+        <h1>把复杂问题，<br><em>做成能用的东西。</em></h1>
+        <p class="hero-copy">
+          香港理工大学商业分析硕士在读。做过百度大模型产品运营实习，也打过广告算法、金融 Agent 和黑客松；
+          还给自己写了一个每天都在用的求职工作台。
+          <b>我关心的不是“讲得漂亮”，而是问题有没有被拆清、结果能不能被验证。</b>
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#work">看五个项目 <span>↓</span></a>
+          <a class="btn" href="tracker-demo.html">打开秋招辅助 Demo <span>↗</span></a>
+        </div>
+      </div>
+      <aside class="hero-index" aria-label="项目索引">
+        <a class="index-row" href="#taac"><span class="num">01</span><span class="name">TAAC 2026 · 点击率预估</span><span class="tag">算法赛</span></a>
+        <a class="index-row" href="#afac"><span class="num">02</span><span class="name">AFAC 2026 · 金融长文本 Agent</span><span class="tag">算法赛</span></a>
+        <a class="index-row" href="#bmo"><span class="num">03</span><span class="name">BMO 黑客松 · 知识宇宙</span><span class="tag">GraphRAG</span></a>
+        <a class="index-row" href="#findex"><span class="num">04</span><span class="name">Findex · 企业协同 Agent</span><span class="tag">创业项目</span></a>
+        <a class="index-row" href="#tracker"><span class="num">05</span><span class="name">秋招辅助 · 自用产品</span><span class="tag">独立开发</span></a>
+      </aside>
+    </div>
+    <div class="hero-foot">
+      <span>5 selected works · 2025—2026</span>
+      <span>Data → product → decision</span>
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-kicker">Selected Work / 01—05</div>
+        <h2>五件做过的事，<em>五种问题。</em></h2>
+      </div>
+      <p>不把简历摊开，而是把每个项目放回“问题—动作—结果—边界”里。能公开的代码和作品都给了链接；团队成果会标清我的那一部分。</p>
+    </div>
+
+    <article class="project reveal" id="taac">
+      <div class="project-num">01</div>
+      <div class="project-main">
+        <div class="project-meta">Tencent Advertising Algorithm Competition 2026 <span class="pill">KDD Cup · Academic Track</span><span class="pill">团队</span></div>
+        <h3>TAAC 2026<br><em>让 CTR 模型更懂序列</em></h3>
+        <p class="lede">
+          约 100 万条脱敏广告曝光、120 个平铺特征、四个域的行为序列。团队在官方 PCVRHyFormer 基线上改出 InterFormer 路线，加入 Focal Loss、RoPE、CrossSummary 等模块，比较“更大的模型”和“更好的序列建模”哪条路更值。
+        </p>
+        <div class="role-line"><b>我的角色</b><span>数据分析 / 特征工程 / 消融实验与结论复核</span></div>
+        <div class="fact-list">
+          <div class="fact"><strong>1M</strong><span>脱敏曝光样本</span></div>
+          <div class="fact"><strong>120</strong><span>平铺特征</span></div>
+          <div class="fact"><strong>0.8067</strong><span>验证 AUC</span></div>
+        </div>
+        <p class="honest"><b>边界：</b>模型主体与训练工程由队友实现；我负责特征分析、实验对照、消融结果复核和结论整理。这里展示的是团队结果，不把团队代码写成个人独立完成。</p>
+        <div class="links">
+          <a class="link-btn primary" href="https://github.com/aKx1ya/TAAC2026" target="_blank" rel="noopener">GitHub 仓库 <span>↗</span></a>
+          <a class="link-btn" href="https://youtu.be/-JgE9-YpROI" target="_blank" rel="noopener">7 分钟讲解 <span>▶</span></a>
+        </div>
+      </div>
+      <div class="visual auc-card">
+        <div class="visual-head"><span>Validation AUC</span><b>TAAC 2026</b></div>
+        <div class="visual-body">
+          <div class="auc-row">
+            <div class="auc-top"><span>PCVRHyFormer · baseline</span><strong>0.7952</strong></div>
+            <div class="auc-track"><div class="auc-fill" style="width:19%"></div></div>
+          </div>
+          <div class="auc-row">
+            <div class="auc-top"><span>PCVRInterFormer · untuned</span><strong>0.8067</strong></div>
+            <div class="auc-track"><div class="auc-fill lime" style="width:33%"></div></div>
+            <p class="auc-note">+0.0115 AUC，d_model 128 → 64</p>
+          </div>
+          <div class="auc-row">
+            <div class="auc-top"><span>InterFormer v0.5 · peak</span><strong>0.8520</strong></div>
+            <div class="auc-track"><div class="auc-fill" style="width:90%"></div></div>
+            <p class="auc-note">step 2396 后过拟合，未作为最终提交</p>
+          </div>
+          <div class="delta"><strong>+0.0115</strong><span>AUC · 未调参 InterFormer vs 已优化 HyFormer<br>柱状轴范围 0.78—0.86</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="project reveal" id="afac">
+      <div class="project-num">02</div>
+      <div class="project-main">
+        <div class="project-meta">AFAC 2026 <span class="pill">挑战组赛题四</span><span class="pill">金融长文本 Agent</span></div>
+        <h3>AFAC 2026<br><em>在 Qwen-only 的夹缝里<br>做长文本问答</em></h3>
+        <p class="lede">
+          190 份 PDF、377 份 HTML、6 份 TXT，约 343 MB 的保险条款、监管文件、合同和研报。赛题禁止 embedding，只能让 Qwen 完成正式答题；团队用 BM25 和规则字段做召回，再用 Self-RAG / CRAG 式自检压缩上下文、逐选项判断“支持 / 反驳 / 证据不足”。
+        </p>
+        <div class="role-line"><b>我的角色</b><span>检索与评测流程 / 失败案例分析 / 结论复核</span></div>
+        <div class="fact-list">
+          <div class="fact"><strong>573</strong><span>PDF + HTML + TXT</span></div>
+          <div class="fact"><strong>BM25</strong><span>无 embedding 召回</span></div>
+          <div class="fact"><strong>70.91</strong><span>合规口径内部峰值</span></div>
+        </div>
+        <p class="honest"><b>口径：</b>70.91 是 Qwen-only 合规设置下的内部验证峰值，不是官方排名。76.45 来自非最终、非合规验证设置，不作为成绩展示。公开仓库由队友维护，是共享工作区。</p>
+        <div class="links">
+          <a class="link-btn primary" href="https://github.com/xuxucodepractice-code/tianchi-fin-agent-track4" target="_blank" rel="noopener">GitHub 仓库 <span>↗</span></a>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="visual-head"><span>Hard Constraints</span><b>AFAC · Track 4</b></div>
+        <div class="visual-body">
+          <div class="constraint-grid">
+            <div class="constraint"><b>Qwen-only</b>正式答题只用 Qwen 系列</div>
+            <div class="constraint"><b>No embedding</b>禁止 embedding 检索 / rerank</div>
+            <div class="constraint"><b>Token budget</b>按赛题预算做上下文压缩</div>
+            <div class="constraint"><b>343 MB</b>190 PDF · 377 HTML · 6 TXT</div>
+          </div>
+          <div class="score-line"><strong>70.91</strong><span>合规 Qwen-only 内部验证峰值<br>非官方排名</span></div>
+          <p class="score-note">长文本不是“全塞进去”，而是先定位证据，再让模型在证据内做判断。</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="project reveal" id="bmo">
+      <div class="project-num">03</div>
+      <div class="project-main">
+        <div class="project-meta">百度 BMO 黑客松 2026 <span class="pill">单人 + AI 协作</span><span class="pill">5 天</span><span class="pill">全国三等奖</span></div>
+        <h3>Roots &amp; Shoots<br><em>把文档变成<br>一张可问的知识图谱</em></h3>
+        <p class="lede">
+          上传文档后，模型抽取实体和关系，写进 Neo4j，形成一个可以双击探索、可以追问、可以在回答时高亮证据的知识图谱。它不只是“聊天”，而是让答案沿着图谱里的关系走。
+        </p>
+        <div class="role-line"><b>我的角色</b><span>单人完成 · 产品定义、前后端联调、Neo4j 与 DeepSeek 接入</span></div>
+        <div class="fact-list">
+          <div class="fact"><strong>5 天</strong><span>从 0 到可演示</span></div>
+          <div class="fact"><strong>438</strong><span>演示图谱节点</span></div>
+          <div class="fact"><strong>1024</strong><span>演示关系</span></div>
+        </div>
+        <p class="honest"><b>边界：</b>项目基于开源 <em>neo4j-labs/llm-graph-builder</em> 改造，不是从零写图数据库；截图来自测试文档，不代表生产规模。图谱问答在证据不足时会明确说“找不到”，不编造结论。</p>
+        <div class="links">
+          <a class="link-btn primary" href="https://github.com/yeung0327/BMOhackathon-20260616" target="_blank" rel="noopener">GitHub 仓库 <span>↗</span></a>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="visual-head"><span>Product Shots</span><b>Roots &amp; Shoots</b></div>
+        <div class="visual-body">
+          <div class="gallery">
+            <button class="shot" type="button" data-gallery="bmo" data-index="0" aria-label="查看知识图谱生成截图"><img src="assets/bmo/bmo-01.jpg" alt="知识图谱生成界面，展示 438 个节点和 1024 条关系" loading="lazy"></button>
+            <button class="shot" type="button" data-gallery="bmo" data-index="1" aria-label="查看文档到实体图谱截图"><img src="assets/bmo/bmo-02.jpg" alt="以百度为中心的实体关系图谱" loading="lazy"></button>
+            <button class="shot" type="button" data-gallery="bmo" data-index="2" aria-label="查看图谱问答截图"><img src="assets/bmo/bmo-03.jpg" alt="知识图谱问答界面，回答指出证据不足" loading="lazy"></button>
+          </div>
+          <p class="caption">上：文档生成图谱 · 左下：实体关系 · 右下：证据不足时拒绝作答 · 成员姓名已模糊</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="project reveal" id="findex">
+      <div class="project-num">04</div>
+      <div class="project-main">
+        <div class="project-meta">PolyU Micro Fund 2026–27 <span class="pill">Cohort 1</span><span class="pill">团队</span><span class="pill">概念验证</span></div>
+        <h3>Findex<br><em>一次变更，<br>让每个角色都知道</em></h3>
+        <p class="lede">
+          一张订单的收货短了 30%：仓库知道，销售还在按旧交期承诺，财务无法判断付款。Findex 把带出处的事实放进工作台，让各岗位 Agent 复核自己的判断，最后给老板一份决策简报——老板拍板，系统不自动发消息、不自动付款。
+        </p>
+        <div class="role-line"><b>我的角色</b><span>Pilots &amp; enterprise needs · 试点与企业需求</span></div>
+        <div class="fact-list">
+          <div class="fact"><strong>5 层</strong><span>事实 / 判断 / 简报</span></div>
+          <div class="fact"><strong>3 个</strong><span>六个月内验证 gate</span></div>
+          <div class="fact"><strong>14 页</strong><span>Pitch Deck</span></div>
+        </div>
+        <p class="honest"><b>边界：</b>这是团队创业项目，我不是创始人；我负责试点与企业需求。项目目前处于概念与 pitch deck 阶段，没有可在线使用的产品。下面翻的是完整 deck，不是已上线系统。</p>
+        <div class="links">
+          <button class="link-btn primary" type="button" data-gallery="findex" data-index="0">在线翻页 <span>↗</span></button>
+          <a class="link-btn" href="assets/findex/Findex_Pitch_Deck.pdf" target="_blank" rel="noopener">下载 PDF <span>↓</span></a>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="visual-head"><span>Pitch Deck</span><b>Findex · 14 pages</b></div>
+        <div class="visual-body">
+          <div class="deck-wrap">
+            <div class="deck-stage">
+              <img class="back" src="assets/findex/page-08.jpg" alt="" aria-hidden="true" loading="lazy">
+              <img class="mid" src="assets/findex/page-05.jpg" alt="" aria-hidden="true" loading="lazy">
+              <button class="deck-front" type="button" data-gallery="findex" data-index="0" aria-label="在线翻页查看 Findex Pitch Deck">
+                <img src="assets/findex/page-01.jpg" alt="Findex Pitch Deck 封面" loading="lazy">
+              </button>
+            </div>
+            <div class="deck-meta"><span>One change. Every role. One decision.</span><span>01 / 14</span></div>
+          </div>
+          <p class="caption">从订单变更、依赖图到决策简报；支持键盘 ← → 翻页。</p>
+        </div>
+      </div>
+    </article>
+
+    <article class="project reveal" id="tracker">
+      <div class="project-num">05</div>
+      <div class="project-main">
+        <div class="project-meta">独立开发 <span class="pill">自用产品</span><span class="pill">React + FastAPI + SQLite</span></div>
+        <h3>秋招辅助<br><em>把 163 个岗位<br>收进一张工作台</em></h3>
+        <p class="lede">
+          投递追踪、简历结构化、JD 匹配、新岗位发现。岗位只从公开的社区维护 Markdown 汇总同步，不碰商业招聘平台；数据存在本机 SQLite，DeepSeek 只负责解析和匹配，不把整份简历发到公网。
+        </p>
+        <div class="role-line"><b>我的角色</b><span>独立开发 · 产品、前端、后端、数据模型</span></div>
+        <div class="fact-list">
+          <div class="fact"><strong>163</strong><span>岗位记录</span></div>
+          <div class="fact"><strong>139</strong><span>覆盖公司</span></div>
+          <div class="fact"><strong>8</strong><span>种投递状态</span></div>
+        </div>
+        <p class="honest"><b>演示说明：</b>下面链接是纯静态 Demo，使用虚构示例数据，不连接 SQLite、不调用 API、不需要 key；真实版本只在本机运行，代码暂未公开。</p>
+        <div class="links">
+          <a class="link-btn primary" href="tracker-demo.html">打开示例 Demo <span>→</span></a>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="visual-head"><span>Workbench</span><b>Job Search Tracker</b></div>
+        <div class="visual-body">
+          <div class="mini-app">
+            <div class="mini-top"><span><i></i>投递追踪 · 本周</span><span>DEMO</span></div>
+            <div class="mini-stats">
+              <div class="mini-stat"><strong>163</strong><span>岗位</span></div>
+              <div class="mini-stat"><strong>22</strong><span>已核实</span></div>
+              <div class="mini-stat"><strong>8</strong><span>状态</span></div>
+            </div>
+            <div class="mini-row"><div><b>星海科技 · 大模型产品运营</b><br><span>深圳 · 匹配 92</span></div><span class="mini-status">面试中</span></div>
+            <div class="mini-row"><div><b>云舟智能 · AI 产品经理</b><br><span>北京 · 匹配 88</span></div><span class="mini-status">意向</span></div>
+            <div class="mini-row"><div><b>原点数据 · 数据分析</b><br><span>上海 · 匹配 81</span></div><span class="mini-status amber">笔试</span></div>
+            <div class="mini-row"><div><b>远山网络 · 产品运营</b><br><span>杭州 · 匹配 78</span></div><span class="mini-status">已投递</span></div>
+          </div>
+          <p class="caption">真实版本：4 张表 · 8 种状态 · 本地 SQLite · 人工核实标记</p>
+        </div>
+      </div>
+    </article>
+
+  </section>
+
+  <section class="about" id="about">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-kicker">About / How I Work</div>
+        <h2>先问“谁要做决定”，<br><em>再想“模型能帮什么”。</em></h2>
+      </div>
+      <p>我的工作方式更接近“翻译”：把业务现场的问题翻译成数据与模型任务，再把模型结果翻译成一个人能拍板的形式。</p>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p class="about-statement">商业分析给我拆问题的框架，<br><em>实习和比赛给我真实的问题。</em></p>
+        <p class="about-copy">
+          在百度做大模型产品运营相关工作时，我花了很多时间在客户场景、产品材料和生态合作上；
+          在 TAAC、AFAC 和黑客松里，我学会了看指标、做对照、承认失败实验；Findex 让我第一次认真想“一个 Agent 产品到底谁付费”；
+          秋招辅助则是我把自己的求职流程做成工具，每天用、每天改。
+        </p>
+        <p class="about-copy">
+          <b>2027 校招方向：</b>大模型产品运营 / 产品运营 / 数据分析 / 解决方案。比起“用过哪个框架”，我更愿意讲清楚：问题是什么、做了什么、结果怎么验证、哪里还没做好。
+        </p>
+        <div class="skill-grid">
+          <div class="skill"><b>产品与运营</b><span>需求拆解 · 客户访谈 · 场景方案 · 生态合作</span></div>
+          <div class="skill"><b>数据与分析</b><span>SQL · Python · 指标体系 · 实验对照</span></div>
+          <div class="skill"><b>大模型应用</b><span>RAG · Agent · GraphRAG · Prompt 与评测</span></div>
+          <div class="skill"><b>开发</b><span>React · TypeScript · FastAPI · SQLite · Docker</span></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="timeline">
+          <div class="tl-row"><time>2026</time><div><b>百度 · 大模型产品运营实习</b><span>客户场景梳理、产品运营、生态合作与项目推进。</span></div></div>
+          <div class="tl-row"><time>2026</time><div><b>TAAC / AFAC / BMO</b><span>广告 CTR 预估、金融长文本 Agent、GraphRAG 知识图谱，三场比赛三种问题。</span></div></div>
+          <div class="tl-row"><time>2026</time><div><b>Findex · 创业团队</b><span>面向贸易 SME 的协同 Agent，负责试点与企业需求。</span></div></div>
+          <div class="tl-row"><time>2026</time><div><b>秋招辅助 · 独立开发</b><span>把自己的投递流程做成一个本地优先的工作台。</span></div></div>
+        </div>
+        <div class="note">
+          <b>关于这份作品集：</b>所有团队项目都标注了我的实际分工；比赛成绩区分官方结果与内部验证口径；不可公开的数据、API key 和真实投递记录都没有放进来。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="contact-inner reveal">
+      <div>
+        <div class="section-kicker">Contact</div>
+        <h2>如果你在找<br><em>能把问题拆开的人。</em></h2>
+        <p>欢迎通过 GitHub 找到我。简历和其他材料可以另外发；这个页面只展示可以公开的作品与边界。</p>
+      </div>
+      <div class="contact-actions">
+        <a class="btn primary" href="https://github.com/yeung0327" target="_blank" rel="noopener">GitHub @yeung0327 <span>↗</span></a>
+        <a class="btn" href="#top">回到顶部 <span>↑</span></a>
+      </div>
+    </div>
+  </section>
+  <footer class="footer">
+    <span>杨千钎 · Portfolio 2026</span>
+    <span>Built with evidence, not adjectives.</span>
+    <span>Last updated 2026.10</span>
+  </footer>
+
+
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="作品图片查看器">
+  <button class="lb-close" id="lbClose" type="button" aria-label="关闭">×</button>
+  <button class="lb-btn lb-prev" id="lbPrev" type="button" aria-label="上一页">←</button>
+  <div class="lb-stage">
+    <img id="lbImg" src="" alt="">
+    <div class="lb-caption" id="lbCap"></div>
+  </div>
+  <button class="lb-btn lb-next" id="lbNext" type="button" aria-label="下一页">→</button>
+  <div class="lb-count" id="lbCount"></div>
+</div>
+
+<script>
+(() => {
+  const findexCaptions = [
+    '封面 · One change. Every role. One decision.',
+    '一张订单，事实对不上',
+    '每一次变更，都靠人传人',
+    '已知与待验证',
+    '每个团队运行自己的 Agent',
+    '一个事实，同时到达销售与财务',
+    '一份简报，老板拍板',
+    '判断依赖图：只重算受影响的部分',
+    '五层架构，两个硬 R&D 问题',
+    'Findex Pitch Deck',
+    '竞争格局：别人管店铺，Findex 管变更',
+    '市场与付费者：每个团队用，老板付费',
+    '团队与分工',
+    '六个月，三个 gate'
+  ];
+  const galleries = {
+    findex: findexCaptions.map((caption, i) => ({
+      src: `assets/findex/page-${String(i + 1).padStart(2, '0')}.jpg`,
+      caption: `Findex · ${caption} · ${String(i + 1).padStart(2, '0')} / 14`
+    })),
+    bmo: [
+      {src: 'assets/bmo/bmo-01.jpg', caption: '知识图谱生成：438 个节点 / 1024 条关系，按实体类型着色'},
+      {src: 'assets/bmo/bmo-02.jpg', caption: '从文档到实体：以百度为中心的 13 个节点 / 17 条关系'},
+      {src: 'assets/bmo/bmo-03.jpg', caption: '图谱问答：证据不足时明确回答“无法找到”，不编造'}
+    ]
+  };
+
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lbImg');
+  const cap = document.getElementById('lbCap');
+  const count = document.getElementById('lbCount');
+  const prev = document.getElementById('lbPrev');
+  const next = document.getElementById('lbNext');
+  const closeBtn = document.getElementById('lbClose');
+  let active = null;
+  let index = 0;
+  let lastFocus = null;
+  const preloaded = {};
+
+  function preload(name) {
+    if (preloaded[name]) return;
+    preloaded[name] = true;
+    galleries[name].forEach(item => { const im = new Image(); im.src = item.src; });
+  }
+  function render() {
+    if (!active) return;
+    const items = galleries[active];
+    const item = items[index];
+    img.src = item.src;
+    img.alt = item.caption;
+    cap.textContent = item.caption;
+    count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+    const multi = items.length > 1;
+    prev.style.display = multi ? 'grid' : 'none';
+    next.style.display = multi ? 'grid' : 'none';
+    count.style.display = multi ? 'block' : 'none';
+  }
+  function open(name, i) {
+    if (!galleries[name]) return;
+    lastFocus = document.activeElement;
+    active = name;
+    index = Math.max(0, Math.min(galleries[name].length - 1, Number(i) || 0));
+    preload(name);
+    render();
+    lb.classList.add('open');
+    document.body.classList.add('lb-open');
+    closeBtn.focus();
+  }
+  function close() {
+    lb.classList.remove('open');
+    document.body.classList.remove('lb-open');
+    active = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function step(dir) {
+    if (!active) return;
+    const len = galleries[active].length;
+    index = (index + dir + len) % len;
+    render();
+  }
+
+  document.querySelectorAll('[data-gallery]').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      open(el.dataset.gallery, el.dataset.index);
+    });
+  });
+  closeBtn.addEventListener('click', close);
+  prev.addEventListener('click', () => step(-1));
+  next.addEventListener('click', () => step(1));
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+  });
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold: 0.1, rootMargin: '0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+</script>
+
+</body>
+</html>
